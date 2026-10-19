@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeBreak: A Fuga do Labirinto de Gênero</title>
+    <!-- Fontes: Inter (Sem serifa) e Fira Code (Monoespaçada) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Importação do CSS separado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- CABEÇALHO SUPERIOR (Visível nas salas) -->
+    <header id="top-bar" class="top-bar hidden">
+        <div class="room-indicator">
+            <span class="status-dot"></span>
+            <span class="mono-text">SALA_01:<strong class="highlight-cyan">INFÂNCIA</strong></span>
+        </div>
+        <div id="timer-display" class="timer-box mono-text">15:00</div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- TELA 1: INÍCIO -->
+        <section id="start-screen" class="screen-card start-card">
+            <p class="mono-text subtitle-tag">INFOSOC - UnB CIC</p>
+            <h1 class="main-title">CodeBreak</h1>
+            <h2 class="sub-title">A Fuga do Labirinto de Gênero</h2>
+            <p class="description-text">
+                Jogo digital imersivo onde você é desafiado a escapar de um laboratório bloqueado resolvendo enigmas lógicos atrelados à história de pioneiras da computação.
+            </p>
+            <button id="btn-start" class="cyber-btn btn-cyan mono-text">
+                &gt;_ INICIAR SISTEMA
+            </button>
+        </section>
+
+        <!-- TELA 2: SALA 01 (ADA LOVELACE) -->
+        <section id="room1-screen" class="room-grid hidden">
+            
+            <!-- Coluna Esquerda: Contexto Histórico -->
+            <div class="lore-card">
+                <h2 class="target-title mono-text">Target: Ada Lovelace</h2>
+                <hr class="divider">
+                <div class="lore-content">
+                    <p>Acessando registros históricos...</p>
+                    <p><strong>Identificada uma anomalia na base de dados:</strong> Estereótipos de Gênero Infantis.</p>
+                    <p>Ainda na infância, brinquedos de montagem e lógica são frequentemente direcionados e limitados a meninos, criando barreiras precoces no interesse por exatas.</p>
+                    <p>No século XIX, <strong>Ada Lovelace</strong> ignorou essas barreiras. Ela enxergou potencial além do óbvio na Máquina Analítica, criando o que hoje conhecemos como o <span class="code-badge mono-text">primeiro algoritmo</span> da história.</p>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Desafio e Terminal -->
+            <div class="challenge-column">
+                
+                <!-- Caixa do Enigma -->
+                <div class="puzzle-card">
+                    <div class="puzzle-header mono-text">
+                        <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span>CADEADO_LÓGICO.exe</span>
+                    </div>
+                    <p class="puzzle-instructions mono-text">
+                        Analise o padrão de cartões perfurados binários criados para a Máquina Analítica. Siga a sequência de deslocamento para deduzir o próximo comando:
+                    </p>
+                    <div class="matrix-box mono-text">
+                        <div>0 0 0 1</div>
+                        <div>0 0 1 0</div>
+                        <div>0 1 0 0</div>
+                        <div class="matrix-placeholder">_ _ _ _</div>
+                    </div>
+                </div>
+
+                <!-- Caixa de Input de Senha -->
+                <div class="terminal-card">
+                    <label for="code-input" class="terminal-comment mono-text">
+                        // Insira o código de 4 dígitos para sobrepor o bloqueio
+                    </label>
+                    <div id="input-wrapper" class="input-line mono-text">
+                        <span class="prompt-arrow">&gt;</span>
+                        <input type="text" id="code-input" maxlength="4" placeholder="0 0 0 0" autocomplete="off">
+                    </div>
+                    <p id="error-msg" class="error-text mono-text hidden">
+                        [ERRO]: Sequência binária inválida. Tente novamente.
+                    </p>
+                    <button id="btn-submit" class="cyber-btn btn-purple mono-text">
+                        &gt;_ EXECUTAR CÓDIGO
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TELA 3: VITÓRIA -->
+        <section id="victory-screen" class="screen-card victory-card hidden">
+            <div class="status-badge mono-text">ACESSO LIBERADO // NÍVEL 01 CONCLUÍDO</div>
+            <h1 class="victory-title">Barreira Inicial Rompida!</h1>
+            <p class="victory-subtitle">
+                Você decifrou o padrão de Ada Lovelace e escapou da primeira sala com <span id="final-time" class="highlight-cyan mono-text">00:00</span> restantes no relógio.
+            </p>
+
+            <div class="stats-box">
+                <h3 class="stats-header mono-text">&gt; DADOS REAIS DO SISTEMA (INEP / SBC):</h3>
+                <ul class="stats-list">
+                    <li>
+                        <span class="bullet-cyan">■</span>
+                        <div><strong>Cenário Atual no Brasil:</strong> Menos de 20% das matrículas em cursos de computação são femininas.</div>
+                    </li>
+                    <li>
+                        <span class="bullet-cyan">■</span>
+                        <div><strong>A Ruptura dos Anos 80:</strong> A comercialização dos microcomputadores como brinquedos masculinos afastou as meninas da área.</div>
+                    </li>
+                    <li>
+                        <span class="bullet-cyan">■</span>
+                        <div><strong>Efeito Tesoura (Leaky Pipeline):</strong> Mulheres sofrem maior taxa de evasão e ainda são minoria em cargos de liderança na TI.</div>
+                    </li>
+                    <li>
+                        <span class="bullet-cyan">■</span>
+                        <div><strong>Visão Plural:</strong> Superar a visão binária e acolher identidades trans, não-binárias e interseccionalidades é essencial para uma tecnologia sem vieses.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <p class="next-steps-note mono-text">
+                [ As próximas salas abordarão o Gargalo Vocacional no Ensino Médio e os desafios de Grace Hopper e Margaret Hamilton... ]
+            </p>
+
+            <button id="btn-restart" class="cyber-btn btn-green mono-text">
+                &gt;_ REINICIAR SIMULAÇÃO
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Importação do JavaScript separado -->
+    <script src="script.js"></script>
+</body>
+</html>
