@@ -15,38 +15,61 @@
     <header id="top-bar" class="top-bar hidden">
         <div class="room-indicator">
             <span class="status-dot"></span>
-            <span class="mono-text">SALA_01:<strong class="highlight-cyan">INFÂNCIA</strong></span>
+            <span id="room-title-badge" class="mono-text">SALA_01:<strong class="highlight-cyan">INFÂNCIA</strong></span>
         </div>
-        <div id="timer-display" class="timer-box mono-text">15:00</div>
+
+        <!-- Indicador de Progresso das 4 Salas -->
+        <div class="progress-steps mono-text">
+            <span id="step-1" class="step-pill active">01</span>
+            <span class="step-line"></span>
+            <span id="step-2" class="step-pill">02</span>
+            <span class="step-line"></span>
+            <span id="step-3" class="step-pill">03</span>
+            <span class="step-line"></span>
+            <span id="step-4" class="step-pill">04</span>
+        </div>
+
+        <div class="top-controls">
+            <button id="btn-sound" class="sound-toggle mono-text" title="Ativar/Desativar Efeitos Sonoros">
+                [SOM: ON]
+            </button>
+            <div id="timer-display" class="timer-box mono-text">15:00</div>
+        </div>
     </header>
 
     <main class="main-container">
 
-        <!-- TELA 1: INÍCIO -->
+        <!-- TELA DE INÍCIO -->
         <section id="start-screen" class="screen-card start-card">
             <p class="mono-text subtitle-tag">INFOSOC - UnB CIC</p>
             <h1 class="main-title">CodeBreak</h1>
             <h2 class="sub-title">A Fuga do Labirinto de Gênero</h2>
             <p class="description-text">
-                Jogo digital imersivo onde você é desafiado a escapar de um laboratório bloqueado resolvendo enigmas lógicos atrelados à história de pioneiras da computação.
+                Você e sua equipe ficaram trancados no laboratório de informática! Para abrir as 4 portas de segurança, vocês precisarão usar o raciocínio lógico, descobrir a história de mulheres que revolucionaram a tecnologia e quebrar barreiras invisíveis. Atenção: cada erro penaliza o cronômetro em 30 segundos!
             </p>
-            <button id="btn-start" class="cyber-btn btn-cyan mono-text">
-                &gt;_ INICIAR SISTEMA
-            </button>
+            
+            <div class="start-actions">
+                <button id="btn-start" class="cyber-btn btn-cyan mono-text">
+                    &gt;_ INICIAR FUGA (4 SALAS)
+                </button>
+                <button id="btn-open-guide" class="cyber-btn btn-purple-outline mono-text">
+                    [?] ACESSAR GUIA DO PROFESSOR &amp; GABARITO
+                </button>
+            </div>
         </section>
 
-        <!-- TELA 2: SALA 01 (ADA LOVELACE) -->
-        <section id="room1-screen" class="room-grid hidden">
+        <!-- TELA DINÂMICA DE SALAS (SALA 01 A SALA 04) -->
+        <section id="room-screen" class="room-grid hidden">
             
-            <!-- Coluna Esquerda: Contexto Histórico -->
+            <!-- Coluna Esquerda: Contexto Histórico e Barreira -->
             <div class="lore-card">
-                <h2 class="target-title mono-text">Target: Ada Lovelace</h2>
+                <div class="lore-header">
+                    <span id="room-phase-tag" class="phase-tag mono-text">FASE DA VIDA: INFÂNCIA &amp; BRINQUEDOS</span>
+                    <h2 id="room-target-title" class="target-title mono-text">Pioneira: Ada Lovelace</h2>
+                </div>
                 <hr class="divider">
-                <div class="lore-content">
-                    <p>Acessando registros históricos...</p>
-                    <p><strong>Identificada uma anomalia na base de dados:</strong> Estereótipos de Gênero Infantis.</p>
-                    <p>Ainda na infância, brinquedos de montagem e lógica são frequentemente direcionados e limitados a meninos, criando barreiras precoces no interesse por exatas.</p>
-                    <p>No século XIX, <strong>Ada Lovelace</strong> ignorou essas barreiras. Ela enxergou potencial além do óbvio na Máquina Analítica, criando o que hoje conhecemos como o <span class="code-badge mono-text">primeiro algoritmo</span> da história.</p>
+                <div id="room-lore-content" class="lore-content">
+                    <!-- Preenchido dinamicamente pelo script.js -->
                 </div>
             </div>
 
@@ -55,84 +78,178 @@
                 
                 <!-- Caixa do Enigma -->
                 <div class="puzzle-card">
-                    <div class="puzzle-header mono-text">
-                        <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        <span>CADEADO_LÓGICO.exe</span>
+                    <div class="puzzle-header-row">
+                        <div class="puzzle-header mono-text">
+                            <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <span id="puzzle-exe-name">CADEADO_LÓGICO.exe</span>
+                        </div>
+                        <button id="btn-hint" class="hint-btn mono-text">? Pedir_Pista</button>
                     </div>
-                    <p class="puzzle-instructions mono-text">
-                        Analise o padrão de cartões perfurados binários criados para a Máquina Analítica. Siga a sequência de deslocamento para deduzir o próximo comando:
+
+                    <p id="puzzle-instructions" class="puzzle-instructions mono-text">
+                        <!-- Instruções preenchidas via JS -->
                     </p>
-                    <div class="matrix-box mono-text">
-                        <div>0 0 0 1</div>
-                        <div>0 0 1 0</div>
-                        <div>0 1 0 0</div>
-                        <div class="matrix-placeholder">_ _ _ _</div>
+                    
+                    <div id="matrix-box" class="matrix-box mono-text">
+                        <!-- Enigma visual preenchido via JS -->
+                    </div>
+
+                    <!-- Feedback de Transição entre Salas -->
+                    <div id="transition-msg" class="transition-box mono-text hidden">
+                        [PORTA DESTRAVADA]: Avançando para o próximo nível...
+                    </div>
+
+                    <!-- Pista Dinâmica (Oculta por padrão) -->
+                    <div id="hint-box" class="hint-box mono-text hidden">
+                        <!-- Dica preenchida via JS -->
                     </div>
                 </div>
 
                 <!-- Caixa de Input de Senha -->
                 <div class="terminal-card">
-                    <label for="code-input" class="terminal-comment mono-text">
-                        // Insira o código de 4 dígitos para sobrepor o bloqueio
+                    <label id="terminal-label" for="code-input" class="terminal-comment mono-text">
+                        // Digite a resposta abaixo para destravar a porta
                     </label>
                     <div id="input-wrapper" class="input-line mono-text">
                         <span class="prompt-arrow">&gt;</span>
-                        <input type="text" id="code-input" maxlength="4" placeholder="0 0 0 0" autocomplete="off">
+                        <input type="text" id="code-input" maxlength="12" placeholder="0 0 0 0" autocomplete="off">
                     </div>
                     <p id="error-msg" class="error-text mono-text hidden">
-                        [ERRO]: Sequência binária inválida. Tente novamente.
+                        [ACESSO NEGADO]: Resposta incorreta. [-30s no cronômetro!]
                     </p>
                     <button id="btn-submit" class="cyber-btn btn-purple mono-text">
-                        &gt;_ EXECUTAR CÓDIGO
+                        &gt;_ TESTAR SENHA
                     </button>
                 </div>
 
             </div>
         </section>
 
-        <!-- TELA 3: VITÓRIA -->
+        <!-- TELA DE VITÓRIA FINAL -->
         <section id="victory-screen" class="screen-card victory-card hidden">
-            <div class="status-badge mono-text">ACESSO LIBERADO // NÍVEL 01 CONCLUÍDO</div>
-            <h1 class="victory-title">Barreira Inicial Rompida!</h1>
+            <div class="status-badge mono-text">LABORATÓRIO DESBLOQUEADO // FUGA CONCLUÍDA</div>
+            <h1 class="victory-title">Vocês Escaparam do Labirinto!</h1>
             <p class="victory-subtitle">
-                Você decifrou o padrão de Ada Lovelace e escapou da primeira sala com <span id="final-time" class="highlight-cyan mono-text">00:00</span> restantes no relógio.
+                Sua equipe desvendou os 4 desafios lógicos restando <span id="final-time" class="highlight-cyan mono-text">00:00</span> no cronômetro.
             </p>
 
             <div class="stats-box">
-                <h3 class="stats-header mono-text">&gt; DADOS REAIS DO SISTEMA (INEP / SBC):</h3>
+                <h3 class="stats-header mono-text">&gt; O QUE DESCOBRIMOS NESTA JORNADA (DADOS REAIS):</h3>
                 <ul class="stats-list">
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Cenário Atual no Brasil:</strong> Menos de 20% das matrículas em cursos de computação são femininas.</div>
+                        <div><strong>Sala 1 (Infância &amp; Ada Lovelace):</strong> Mulheres criaram o 1º algoritmo da história e programaram os primeiros computadores (ENIAC), mas nos anos 80 o marketing passou a vender computadores apenas como "brinquedos de menino".</div>
                     </li>
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>A Ruptura dos Anos 80:</strong> A comercialização dos microcomputadores como brinquedos masculinos afastou as meninas da área.</div>
+                        <div><strong>Sala 2 (Ensino Médio &amp; Grace Hopper):</strong> É entre os 14 e 18 anos que muitas garotas desistem das Exatas por falta de incentivo. Hoje, menos de 20% das turmas de computação no Brasil são formadas por mulheres (INEP/SBC)[cite: 3, 6].</div>
                     </li>
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Efeito Tesoura (Leaky Pipeline):</strong> Mulheres sofrem maior taxa de evasão e ainda são minoria em cargos de liderança na TI.</div>
+                        <div><strong>Sala 3 (Faculdade/Carreira &amp; Margaret Hamilton):</strong> Mesmo tendo levado o ser humano à Lua, as mulheres ainda enfrentam o <em>Efeito Tesoura</em>: apenas 15% a 20% concluem os cursos de TI e poucas chegam a cargos de chefia[cite: 5, 6].</div>
                     </li>
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Visão Plural:</strong> Superar a visão binária e acolher identidades trans, não-binárias e interseccionalidades é essencial para uma tecnologia sem vieses.</div>
+                        <div><strong>Sala 4 (Futuro Plural &amp; Inteligência Artificial):</strong> Para que as IAs e tecnologias não sejam injustas ou preconceituosas, a TI precisa ir além do binário, acolhendo pessoas trans, não-binárias e toda a diversidade da sociedade[cite: 5, 6].</div>
                     </li>
                 </ul>
             </div>
 
-            <p class="next-steps-note mono-text">
-                [ As próximas salas abordarão o Gargalo Vocacional no Ensino Médio e os desafios de Grace Hopper e Margaret Hamilton... ]
-            </p>
-
             <button id="btn-restart" class="cyber-btn btn-green mono-text">
-                &gt;_ REINICIAR SIMULAÇÃO
+                &gt;_ JOGAR NOVAMENTE
             </button>
         </section>
 
     </main>
+
+    <!-- MODAL: GUIA DO PROFESSOR & GABARITO -->
+    <div id="teacher-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <span class="phase-tag mono-text">MATERIAL PEDAGÓGICO DOCENTE // INFOSOC UnB[cite: 1, 6]</span>
+                    <h2 id="modal-title" class="modal-title mono-text">Guia do Professor &amp; Gabarito Oficial</h2>
+                </div>
+                <button id="btn-close-guide" class="close-modal-btn mono-text" title="Fechar Guia">[X] FECHAR</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Seção 1: Proposta e Aplicação -->
+                <div class="guide-section">
+                    <h3 class="guide-heading mono-text">&gt; 1. OBJETIVO PEDAGÓGICO E APLICAÇÃO</h3>
+                    <p>
+                        Desenvolvido para estudantes do <strong>Ensino Médio (14 a 18 anos)</strong>[cite: 4, 6], o escape room <em>CodeBreak</em> exercita o pensamento computacional (reconhecimento de padrões, representação simbólica, lógica booleana e auditoria algorítmica) sem exigir conhecimento prévio de código[cite: 4, 6].
+                    </p>
+                    <p>
+                        <strong>Tempo sugerido:</strong> 15 minutos de jogo em duplas ou trios + 15 minutos de debate coletivo (<em>debriefing</em>). Cada erro no terminal acarreta uma penalidade de 30 segundos no cronômetro[cite: 8].
+                    </p>
+                </div>
+
+                <!-- Seção 2: Gabarito Comentado -->
+                <div class="guide-section">
+                    <h3 class="guide-heading mono-text">&gt; 2. GABARITO COMENTADO DAS 4 SALAS</h3>
+                    <div class="answer-grid">
+                        <div class="answer-item">
+                            <div class="answer-top mono-text">
+                                <span>SALA 01: Infância (Ada Lovelace)[cite: 7]</span>
+                                <span class="answer-key">SENHA: 1000</span>
+                            </div>
+                            <p><strong>Lógica:</strong> Reconhecimento de padrões e deslocamento à esquerda (<em>bit shift</em>). O número <code>1</code> move-se uma casa para a esquerda a cada linha (0001 &rarr; 0010 &rarr; 0100 &rarr; <strong>1000</strong>).</p>
+                        </div>
+
+                        <div class="answer-item">
+                            <div class="answer-top mono-text">
+                                <span>SALA 02: Ensino Médio (Grace Hopper)[cite: 3, 6]</span>
+                                <span class="answer-key">SENHA: BUG</span>
+                            </div>
+                            <p><strong>Lógica:</strong> Abstração e tradução simbólica (conceito de compilador/ASCII). Cruzando as 3 sequências binárias com o dicionário fornecido: <code>01000010</code> (B), <code>01010101</code> (U) e <code>01000111</code> (G).</p>
+                        </div>
+
+                        <div class="answer-item">
+                            <div class="answer-top mono-text">
+                                <span>SALA 03: Universidade (Margaret Hamilton)[cite: 5, 6]</span>
+                                <span class="answer-key">SENHA: 11</span>
+                            </div>
+                            <p><strong>Lógica:</strong> Filtragem condicional com operador lógico <code>E</code> (AND). O único processo que satisfaz simultaneamente <em>Essencial == SIM</em> e <em>Prioridade &gt; 90</em> é o Motor de Pouso (<strong>ID 11</strong>, Prioridade 95).</p>
+                        </div>
+
+                        <div class="answer-item">
+                            <div class="answer-top mono-text">
+                                <span>SALA 04: Sociedade &amp; IA (Visão Não-Binária)[cite: 5, 6]</span>
+                                <span class="answer-key">SENHA: PLURAL</span>
+                            </div>
+                            <p><strong>Lógica:</strong> Auditoria de viés algorítmico e interpretação crítica. Substitui a restrição binária do sistema pelo conceito-chave destacado na fundamentação: uma tecnologia <strong>PLURAL</strong>[cite: 5, 6].</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção 3: Dinâmica de Debate -->
+                <div class="guide-section">
+                    <h3 class="guide-heading mono-text">&gt; 3. ROTEIRO DE DEBATE PÓS-JOGO (DEBRIEFING)</h3>
+                    <ul class="guide-list">
+                        <li>
+                            <strong>Pergunta 1 (Estereótipos na Infância):</strong> <em>"Por que aprendemos na escola sobre tantos cientistas homens, mas quase nunca ouvimos que o primeiro algoritmo da história foi criado por uma mulher (Ada Lovelace)[cite: 3, 7]?"</em>
+                        </li>
+                        <li>
+                            <strong>Pergunta 2 (Gargalo no Ensino Médio e Efeito Tesoura):</strong> <em>"Menos de 20% das matrículas em TI no Brasil são femininas (INEP/SBC)[cite: 3, 6]. Quais barreiras invisíveis fazem garotas de 14 a 18 anos acharem que computação 'não é para elas'[cite: 3, 4]?"</em>
+                        </li>
+                        <li>
+                            <strong>Pergunta 3 (Além da Visão Binária e IA):</strong> <em>"Se uma Inteligência Artificial que seleciona currículos ou reconhece rostos for programada apenas por um grupo homogêneo, como isso afeta mulheres, pessoas negras, trans e não-binárias[cite: 5, 6]?"</em>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-close-guide-bottom" class="cyber-btn btn-cyan mono-text">
+                    &gt;_ ENTENDIDO, VOLTAR À TELA INICIAL
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Importação do JavaScript separado -->
     <script src="script.js"></script>
