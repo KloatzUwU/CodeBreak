@@ -18,7 +18,7 @@
             <span id="room-title-badge" class="mono-text">SALA_01:<strong class="highlight-cyan">INFÂNCIA</strong></span>
         </div>
 
-        <!-- Indicador de Progresso das 4 Salas -->
+        <!-- Indicador de Progresso das 6 Salas -->
         <div class="progress-steps mono-text">
             <span id="step-1" class="step-pill active">01</span>
             <span class="step-line"></span>
@@ -27,13 +27,17 @@
             <span id="step-3" class="step-pill">03</span>
             <span class="step-line"></span>
             <span id="step-4" class="step-pill">04</span>
+            <span class="step-line"></span>
+            <span id="step-5" class="step-pill">05</span>
+            <span class="step-line"></span>
+            <span id="step-6" class="step-pill">06</span>
         </div>
 
         <div class="top-controls">
             <button id="btn-sound" class="sound-toggle mono-text" title="Ativar/Desativar Efeitos Sonoros">
                 [SOM: ON]
             </button>
-            <div id="timer-display" class="timer-box mono-text">15:00</div>
+            <div id="timer-display" class="timer-box mono-text">20:00</div>
         </div>
     </header>
 
@@ -45,12 +49,12 @@
             <h1 class="main-title">CodeBreak</h1>
             <h2 class="sub-title">A Fuga do Labirinto de Gênero</h2>
             <p class="description-text">
-                Você e sua equipe ficaram trancados no laboratório de informática! Para abrir as 4 portas de segurança, vocês precisarão usar o raciocínio lógico, descobrir a história de mulheres que revolucionaram a tecnologia e quebrar barreiras invisíveis. Atenção: cada erro penaliza o cronômetro em 30 segundos!
+                Você e sua equipe ficaram trancados no laboratório de informática! Para abrir as 6 portas de segurança, vocês precisarão usar o raciocínio lógico, descobrir a história de mulheres que revolucionaram a tecnologia e quebrar barreiras invisíveis. Atenção: cada erro penaliza o cronômetro em 30 segundos!
             </p>
             
             <div class="start-actions">
                 <button id="btn-start" class="cyber-btn btn-cyan mono-text">
-                    &gt;_ INICIAR FUGA (4 SALAS)
+                    &gt;_ INICIAR FUGA (6 SALAS)
                 </button>
                 <button id="btn-open-guide" class="cyber-btn btn-purple-outline mono-text">
                     [?] ACESSAR GUIA DO PROFESSOR &amp; GABARITO
@@ -58,7 +62,7 @@
             </div>
         </section>
 
-        <!-- TELA DINÂMICA DE SALAS (SALA 01 A SALA 04) -->
+        <!-- TELA DINÂMICA DE SALAS (SALA 01 A SALA 06) -->
         <section id="room-screen" class="room-grid hidden">
             
             <!-- Coluna Esquerda: Contexto Histórico e Barreira -->
@@ -128,12 +132,32 @@
             </div>
         </section>
 
+        <!-- TELA DE GAME OVER (TEMPO ESGOTADO) -->
+        <section id="gameover-screen" class="screen-card gameover-card hidden">
+            <div class="status-badge-red mono-text">SISTEMA BLOQUEADO // TEMPO ESGOTADO</div>
+            <h1 class="gameover-title">O Tempo Acabou!</h1>
+            <p class="gameover-subtitle">
+                O laboratório permaneceu trancado e o cronômetro zerou. Erros excessivos ou falhas de tempo encerraram a simulação.
+            </p>
+
+            <div class="stats-box gameover-stats">
+                <h3 class="stats-header mono-text">&gt; PROTOCOLO DE RECUPERAÇÃO:</h3>
+                <p class="guide-text">
+                    Não desista! Revise o <strong>Guia do Professor</strong> na tela inicial para conferir dicas sobre o pensamento computacional e tente novamente para resgatar o legado das pioneiras da TI.
+                </p>
+            </div>
+
+            <button id="btn-retry" class="cyber-btn btn-red mono-text">
+                &gt;_ TENTAR NOVAMENTE
+            </button>
+        </section>
+
         <!-- TELA DE VITÓRIA FINAL -->
         <section id="victory-screen" class="screen-card victory-card hidden">
             <div class="status-badge mono-text">LABORATÓRIO DESBLOQUEADO // FUGA CONCLUÍDA</div>
             <h1 class="victory-title">Vocês Escaparam do Labirinto!</h1>
             <p class="victory-subtitle">
-                Sua equipe desvendou os 4 desafios lógicos restando <span id="final-time" class="highlight-cyan mono-text">00:00</span> no cronômetro.
+                Sua equipe desvendou os 6 desafios lógicos restando <span id="final-time" class="highlight-cyan mono-text">00:00</span> no cronômetro.
             </p>
 
             <div class="stats-box">
@@ -141,19 +165,27 @@
                 <ul class="stats-list">
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Sala 1 (Infância &amp; Ada Lovelace):</strong> Mulheres criaram o 1º algoritmo da história e programaram os primeiros computadores (ENIAC), mas nos anos 80 o marketing passou a vender computadores apenas como "brinquedos de menino".</div>
+                        <div><strong>Sala 1 (Infância &amp; Ada Lovelace):</strong> Mulheres criaram o 1º algoritmo da história, mas nos anos 80 o marketing passou a vender computadores apenas como brinquedos de menino.</div>
                     </li>
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Sala 2 (Ensino Médio &amp; Grace Hopper):</strong> É entre os 14 e 18 anos que muitas garotas desistem das Exatas por falta de incentivo. Hoje, menos de 20% das turmas de computação no Brasil são formadas por mulheres (INEP/SBC)[cite: 3, 6].</div>
+                        <div><strong>Sala 2 (ENIAC &amp; As Programadoras):</strong> Nos anos 40, matemáticas como Betty Holberton programaram o primeiro computador eletrônico gigante sem manuais, abrindo a era digital.</div>
                     </li>
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Sala 3 (Faculdade/Carreira &amp; Margaret Hamilton):</strong> Mesmo tendo levado o ser humano à Lua, as mulheres ainda enfrentam o <em>Efeito Tesoura</em>: apenas 15% a 20% concluem os cursos de TI e poucas chegam a cargos de chefia[cite: 5, 6].</div>
+                        <div><strong>Sala 3 (Ensino Médio &amp; Grace Hopper):</strong> É entre os 14 e 18 anos que muitas garotas desistem das Exatas. Hoje, menos de 20% das turmas de computação no Brasil são formadas por mulheres.</div>
                     </li>
                     <li>
                         <span class="bullet-cyan">■</span>
-                        <div><strong>Sala 4 (Futuro Plural &amp; Inteligência Artificial):</strong> Para que as IAs e tecnologias não sejam injustas ou preconceituosas, a TI precisa ir além do binário, acolhendo pessoas trans, não-binárias e toda a diversidade da sociedade[cite: 5, 6].</div>
+                        <div><strong>Sala 4 (Universidade &amp; Margaret Hamilton):</strong> Mulheres enfrentam o Efeito Tesoura: apenas 15% a 20% concluem os cursos de TI e poucas chegam a cargos de chefia.</div>
+                    </li>
+                    <li>
+                        <span class="bullet-cyan">■</span>
+                        <div><strong>Sala 5 (Computação Desplugada &amp; Inclusão):</strong> Metodologias ativas permitem ensinar lógica e algoritmos em escolas públicas sem computadores, democratizando o acesso.</div>
+                    </li>
+                    <li>
+                        <span class="bullet-cyan">■</span>
+                        <div><strong>Sala 6 (Sociedade &amp; Inteligência Artificial):</strong> Para que as IAs não sejam preconceituosas, a TI precisa ir além do binário, acolhendo pessoas trans, não-binárias e toda a diversidade.</div>
                     </li>
                 </ul>
             </div>
@@ -170,7 +202,7 @@
         <div class="modal-card">
             <div class="modal-header">
                 <div>
-                    <span class="phase-tag mono-text">MATERIAL PEDAGÓGICO DOCENTE // INFOSOC UnB[cite: 1, 6]</span>
+                    <span class="phase-tag mono-text">MATERIAL PEDAGÓGICO DOCENTE // INFOSOC UnB</span>
                     <h2 id="modal-title" class="modal-title mono-text">Guia do Professor &amp; Gabarito Oficial</h2>
                 </div>
                 <button id="btn-close-guide" class="close-modal-btn mono-text" title="Fechar Guia">[X] FECHAR</button>
@@ -181,47 +213,63 @@
                 <div class="guide-section">
                     <h3 class="guide-heading mono-text">&gt; 1. OBJETIVO PEDAGÓGICO E APLICAÇÃO</h3>
                     <p>
-                        Desenvolvido para estudantes do <strong>Ensino Médio (14 a 18 anos)</strong>[cite: 4, 6], o escape room <em>CodeBreak</em> exercita o pensamento computacional (reconhecimento de padrões, representação simbólica, lógica booleana e auditoria algorítmica) sem exigir conhecimento prévio de código[cite: 4, 6].
+                        Desenvolvido para estudantes do <strong>Ensino Médio (14 a 18 anos)</strong>, o escape room <em>CodeBreak</em> exercita o pensamento computacional (reconhecimento de padrões, representação simbólica, lógica booleana e computação desplugada) sem exigir conhecimento prévio de código.
                     </p>
                     <p>
-                        <strong>Tempo sugerido:</strong> 15 minutos de jogo em duplas ou trios + 15 minutos de debate coletivo (<em>debriefing</em>). Cada erro no terminal acarreta uma penalidade de 30 segundos no cronômetro[cite: 8].
+                        <strong>Tempo sugerido:</strong> 20 minutos de jogo em duplas ou trios + 15 minutos de debate coletivo (<em>debriefing</em>). Cada erro no terminal acarreta uma penalidade de 30 segundos no cronômetro.
                     </p>
                 </div>
 
                 <!-- Seção 2: Gabarito Comentado -->
                 <div class="guide-section">
-                    <h3 class="guide-heading mono-text">&gt; 2. GABARITO COMENTADO DAS 4 SALAS</h3>
+                    <h3 class="guide-heading mono-text">&gt; 2. GABARITO COMENTADO DAS 6 SALAS</h3>
                     <div class="answer-grid">
                         <div class="answer-item">
                             <div class="answer-top mono-text">
-                                <span>SALA 01: Infância (Ada Lovelace)[cite: 7]</span>
+                                <span>SALA 01: Infância (Ada Lovelace)</span>
                                 <span class="answer-key">SENHA: 1000</span>
                             </div>
-                            <p><strong>Lógica:</strong> Reconhecimento de padrões e deslocamento à esquerda (<em>bit shift</em>). O número <code>1</code> move-se uma casa para a esquerda a cada linha (0001 &rarr; 0010 &rarr; 0100 &rarr; <strong>1000</strong>).</p>
+                            <p><strong>Lógica:</strong> Reconhecimento de padrões e deslocamento à esquerda (<em>bit shift</em>). O número <code>1</code> move-se uma casa para a esquerda a cada linha.</p>
                         </div>
 
                         <div class="answer-item">
                             <div class="answer-top mono-text">
-                                <span>SALA 02: Ensino Médio (Grace Hopper)[cite: 3, 6]</span>
+                                <span>SALA 02: ENIAC (Decodificação)</span>
+                                <span class="answer-key">SENHA: ENIAC</span>
+                            </div>
+                            <p><strong>Lógica:</strong> Correspondência de símbolos e decodificação alfanumérica baseada na história das primeiras programadoras.</p>
+                        </div>
+
+                        <div class="answer-item">
+                            <div class="answer-top mono-text">
+                                <span>SALA 03: Ensino Médio (Grace Hopper)</span>
                                 <span class="answer-key">SENHA: BUG</span>
                             </div>
-                            <p><strong>Lógica:</strong> Abstração e tradução simbólica (conceito de compilador/ASCII). Cruzando as 3 sequências binárias com o dicionário fornecido: <code>01000010</code> (B), <code>01010101</code> (U) e <code>01000111</code> (G).</p>
+                            <p><strong>Lógica:</strong> Tradução simbólica e binária cruzada com o dicionário de compiladores.</p>
                         </div>
 
                         <div class="answer-item">
                             <div class="answer-top mono-text">
-                                <span>SALA 03: Universidade (Margaret Hamilton)[cite: 5, 6]</span>
+                                <span>SALA 04: Universidade (Margaret Hamilton)</span>
                                 <span class="answer-key">SENHA: 11</span>
                             </div>
-                            <p><strong>Lógica:</strong> Filtragem condicional com operador lógico <code>E</code> (AND). O único processo que satisfaz simultaneamente <em>Essencial == SIM</em> e <em>Prioridade &gt; 90</em> é o Motor de Pouso (<strong>ID 11</strong>, Prioridade 95).</p>
+                            <p><strong>Lógica:</strong> Filtragem booleana com operador E (AND) identificando o processo crítico.</p>
                         </div>
 
                         <div class="answer-item">
                             <div class="answer-top mono-text">
-                                <span>SALA 04: Sociedade &amp; IA (Visão Não-Binária)[cite: 5, 6]</span>
+                                <span>SALA 05: Desplugada (Labirinto de Vetores)</span>
+                                <span class="answer-key">SENHA: 8</span>
+                            </div>
+                            <p><strong>Lógica:</strong> Execução de algoritmo de navegação espacial passo a passo numa matriz numérica 3x3.</p>
+                        </div>
+
+                        <div class="answer-item">
+                            <div class="answer-top mono-text">
+                                <span>SALA 06: Sociedade &amp; IA (Visão Plural)</span>
                                 <span class="answer-key">SENHA: PLURAL</span>
                             </div>
-                            <p><strong>Lógica:</strong> Auditoria de viés algorítmico e interpretação crítica. Substitui a restrição binária do sistema pelo conceito-chave destacado na fundamentação: uma tecnologia <strong>PLURAL</strong>[cite: 5, 6].</p>
+                            <p><strong>Lógica:</strong> Auditoria de viés algorítmico superando a visão puramente binária.</p>
                         </div>
                     </div>
                 </div>
@@ -231,13 +279,13 @@
                     <h3 class="guide-heading mono-text">&gt; 3. ROTEIRO DE DEBATE PÓS-JOGO (DEBRIEFING)</h3>
                     <ul class="guide-list">
                         <li>
-                            <strong>Pergunta 1 (Estereótipos na Infância):</strong> <em>"Por que aprendemos na escola sobre tantos cientistas homens, mas quase nunca ouvimos que o primeiro algoritmo da história foi criado por uma mulher (Ada Lovelace)[cite: 3, 7]?"</em>
+                            <strong>Pergunta 1 (Pressão do Cronômetro e Erros):</strong> <em>"Durante o jogo, cada erro custava 30 segundos preciosos e gerava frustração. Como essa sensação de 'não saber de primeira' se parece com o receio que muitas alunas no Ensino Médio sentem ao achar que 'não levam jeito' para Exatas?"</em>
                         </li>
                         <li>
-                            <strong>Pergunta 2 (Gargalo no Ensino Médio e Efeito Tesoura):</strong> <em>"Menos de 20% das matrículas em TI no Brasil são femininas (INEP/SBC)[cite: 3, 6]. Quais barreiras invisíveis fazem garotas de 14 a 18 anos acharem que computação 'não é para elas'[cite: 3, 4]?"</em>
+                            <strong>Pergunta 2 (O Peso dos Modelos e Referências):</strong> <em>"Passamos por Ada Lovelace, Grace Hopper e Margaret Hamilton. Por que a ausência dessas referências femininas na história escolar faz com que meninas de 14 a 18 anos acreditem que a computação não é um espaço para elas?"</em>
                         </li>
                         <li>
-                            <strong>Pergunta 3 (Além da Visão Binária e IA):</strong> <em>"Se uma Inteligência Artificial que seleciona currículos ou reconhece rostos for programada apenas por um grupo homogêneo, como isso afeta mulheres, pessoas negras, trans e não-binárias[cite: 5, 6]?"</em>
+                            <strong>Pergunta 3 (A Barreira do Binário na IA):</strong> <em>"Na última sala, abrimos a porta tirando o sistema do padrão estrito e adotando uma visão 'plural'. Se uma Inteligência Artificial for programada sem diversidade, que tipos de pessoas e realidades ela automaticamente exclui no mundo real?"</em>
                         </li>
                     </ul>
                 </div>
