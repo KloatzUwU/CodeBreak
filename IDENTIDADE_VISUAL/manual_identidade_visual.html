@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual de Identidade Visual - CodeBreak: O Gabinete de Ada Lovelace</title>
+    <!-- Fontes limpas: Inter e Fira Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 18mm 18mm 18mm 18mm;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 9.5pt;
+            line-height: 1.55;
+            color: #1E293B;
+            background-color: #FFFFFF;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Estrutura das Páginas */
+        .page {
+            width: 100%;
+            min-height: 255mm;
+            page-break-after: always;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+        }
+
+        /* Cabeçalho Institucional Clean */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px solid #E2E8F0;
+            padding-bottom: 9px;
+            margin-bottom: 20px;
+        }
+
+        .header-meta {
+            font-size: 7.5pt;
+            font-weight: 600;
+            color: #64748B;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header-inst {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 7.5pt;
+            font-weight: 600;
+            color: #002B49;
+        }
+
+        .header-inst img {
+            height: 18px;
+            width: auto;
+        }
+
+        /* Títulos e Seções */
+        .doc-title-block {
+            margin-bottom: 22px;
+        }
+
+        .doc-tag {
+            font-size: 8pt;
+            font-weight: 700;
+            color: #00A3E0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .doc-title {
+            font-size: 22pt;
+            font-weight: 700;
+            color: #002B49;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 6px;
+        }
+
+        .doc-subtitle {
+            font-size: 10pt;
+            color: #475569;
+            font-weight: 400;
+            max-width: 640px;
+            line-height: 1.45;
+        }
+
+        .authors-row {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #F1F5F9;
+            font-size: 8pt;
+            color: #64748B;
+            display: flex;
+            gap: 20px;
+        }
+
+        .authors-row strong {
+            color: #334155;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #002B49;
+            border-left: 3px solid #00A3E0;
+            padding-left: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section p {
+            color: #334155;
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+
+        /* Grid de Informações */
+        .info-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .info-card {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            padding: 12px 14px;
+        }
+
+        .info-card h4 {
+            font-size: 8.5pt;
+            font-weight: 700;
+            color: #002B49;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .info-card p {
+            font-size: 8.5pt;
+            color: #475569;
+            line-height: 1.45;
+            margin: 0;
+            text-align: left;
+        }
+
+        /* Seção da Marca / Logos */
+        .logo-display-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+            margin-bottom: 14px;
+        }
+
+        .logo-box {
+            border-radius: 6px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 90px;
+        }
+
+        .logo-box-light {
+            background-color: #F8FAFC;
+            border: 1px solid #CBD5E1;
+        }
+
+        .logo-box-dark {
+            background-color: #070B12;
+            border: 1px solid #1E293B;
+        }
+
+        .logo-box-mono {
+            background-color: #FFFFFF;
+            border: 1px solid #CBD5E1;
+        }
+
+        .logo-box img {
+            max-width: 100%;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .logo-caption {
+            font-size: 7pt;
+            margin-top: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-box-light .logo-caption { color: #64748B; }
+        .logo-box-dark .logo-caption { color: #94A3B8; }
+        .logo-box-mono .logo-caption { color: #475569; }
+
+        /* Paleta de Cores */
+        .color-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 14px;
+        }
+
+        .color-swatch {
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+        }
+
+        .color-preview {
+            height: 40px;
+            width: 100%;
+        }
+
+        .color-details {
+            padding: 8px;
+            font-size: 7.5pt;
+        }
+
+        .color-name {
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 2px;
+        }
+
+        .color-hex {
+            font-family: 'Fira Code', monospace;
+            color: #64748B;
+            font-size: 7pt;
+            margin-bottom: 2px;
+        }
+
+        .color-role {
+            color: #475569;
+            font-size: 6.5pt;
+            line-height: 1.25;
+        }
+
+        /* Tipografia */
+        .type-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .type-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+
+        .type-specimen {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #002B49;
+            margin-bottom: 4px;
+        }
+
+        .type-card p {
+            font-size: 8pt;
+            color: #475569;
+            margin: 0;
+            text-align: left;
+        }
+
+        /* Prints Reais de Tela */
+        .screenshot-card {
+            margin-top: 10px;
+            margin-bottom: 14px;
+            background: #FFFFFF;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .screenshot-header {
+            background-color: #F1F5F9;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 7.5pt;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .screenshot-img-wrap {
+            background-color: #070B12;
+            padding: 4px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .screenshot-img-wrap img {
+            width: 100%;
+            height: auto;
+            max-height: 215px;
+            object-fit: contain;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .screenshot-desc {
+            padding: 9px 12px;
+            background-color: #FFFFFF;
+            font-size: 8pt;
+            color: #334155;
+            line-height: 1.45;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .screenshot-desc strong {
+            color: #002B49;
+        }
+
+        /* Grid de 2 Screenshots lado a lado */
+        .screenshot-dual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
+
+        .screenshot-mini-card {
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #FFFFFF;
+        }
+
+        .screenshot-mini-header {
+            background-color: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 5px 10px;
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: #002B49;
+        }
+
+        .screenshot-mini-wrap {
+            background-color: #070B12;
+            padding: 3px;
+        }
+
+        .screenshot-mini-wrap img {
+            width: 100%;
+            height: 145px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .screenshot-mini-desc {
+            padding: 7px 10px;
+            font-size: 7.5pt;
+            color: #475569;
+            line-height: 1.35;
+        }
+
+        /* Tabela Clean */
+        .clean-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8pt;
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
+
+        .clean-table th {
+            background-color: #F8FAFC;
+            color: #002B49;
+            font-weight: 600;
+            text-align: left;
+            padding: 7px 10px;
+            border-bottom: 1.5px solid #CBD5E1;
+        }
+
+        .clean-table td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #E2E8F0;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .clean-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tag-badge {
+            display: inline-block;
+            font-family: 'Fira Code', monospace;
+            font-size: 7pt;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .tag-cyan { background-color: #E0F2FE; color: #0284C7; }
+        .tag-purple { background-color: #F3E8FF; color: #7E22CE; }
+        .tag-green { background-color: #DCFCE7; color: #15803D; }
+
+        /* Rodapé Discreto */
+        .page-footer {
+            margin-top: auto;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 7.5pt;
+            color: #94A3B8;
+        }
+
+        .page-num {
+            font-weight: 600;
+            color: #64748B;
+        }
+
+        .doc-title { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; font-size: 26pt; letter-spacing: 0; color: #070B12; }
+        .doc-tag { font-weight: 500; letter-spacing: 2px; }
+        .section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 13pt; border-left: 2px solid #00A3E0; }
+        .type-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+        .type-specimen.serif { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; font-size: 15pt; }
+        .mono-c { font-family: 'Fira Code', monospace; color: #00A3E0; }
+        .screenshot-img-wrap.tall img { max-height: 300px; object-fit: cover; object-position: top; }
+        .screenshot-mini-wrap img { object-position: top; }
+        img.ico { width: 30px; height: 30px; background: #070B12; padding: 3px; border-radius: 4px; display: block; }
+        .info-card, .type-card, .color-swatch, .screenshot-card, .screenshot-mini-card, .logo-box { border-radius: 3px; }
+    </style>
+</head>
+<body>
+<!-- PÁGINA 1 -->
+<div class="page">
+    <header class="header-top">
+        <div class="header-meta">Universidade de Brasília · Departamento de Ciência da Computação · INFOSOC 2026/2</div>
+        <div class="header-inst"><img src="assets/unb_logo-1.png" alt="UnB"><span>CIC / UnB</span></div>
+    </header>
+    <div class="doc-title-block">
+        <div class="doc-tag">Manual de Identidade Visual</div>
+        <h1 class="doc-title">CodeBreak: O Gabinete de Ada Lovelace</h1>
+        <p class="doc-subtitle">Guia visual do escape room digital para turmas de Ensino Médio: uma única sala temática, seis pistas a decifrar e uma conversa sobre a presença feminina na tecnologia.</p>
+        <div class="authors-row">
+            <span><strong>Autores:</strong> Marcus Cavalcante e Kawan Borges</span>
+            <span><strong>Orientação:</strong> Profª. Drª. Leticia Lopes Leite</span>
+            <span><strong>Versão:</strong> 3.0</span>
+        </div>
+    </div>
+
+    <section class="section">
+        <h2 class="section-title">1. Proposta e dinâmica</h2>
+        <p>O <strong>CodeBreak</strong> é um jogo de enigmas em navegador, aplicado em equipes. Os estudantes ficam trancados no gabinete de <strong>Ada Lovelace</strong> (Londres, 1843) e, para abrir a porta, precisam resolver <strong>todas as 6 pistas</strong> em <strong>15 minutos</strong>. Cada pista une um raciocínio de computação a um fato da história de Ada, a primeira pessoa a escrever um programa para uma máquina.</p>
+        <div class="info-grid-2">
+            <div class="info-card"><h4>Uma sala, muitas pistas</h4><p>Todas as pistas ficam visíveis ao mesmo tempo e podem ser resolvidas em qualquer ordem, o que favorece a divisão de tarefas na equipe.</p></div>
+            <div class="info-card"><h4>Tempo e dicas</h4><p>O cronômetro regressivo perde 30 segundos a cada resposta incorreta. Cada pista tem uma dica opcional para que nenhuma equipe fique travada.</p></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">2. Logotipo e conceito</h2>
+        <p>O símbolo une colchetes de código a um furo central, em referência aos cartões perfurados que Ada usou como inspiração. O desenho é fino e contido: um quadrado de cantos suaves, dois colchetes em ciano e um ponto. A assinatura combina o nome em serifa elegante com o subtítulo em caixa alta espaçada.</p>
+        <div class="logo-display-grid">
+            <div class="logo-box logo-box-light"><img src="assets/logo_horizontal_light.svg" alt=""><span class="logo-caption">Versão clara</span></div>
+            <div class="logo-box logo-box-dark"><img src="assets/logo_horizontal_dark.svg" alt=""><span class="logo-caption">Versão escura (jogo)</span></div>
+            <div class="logo-box logo-box-mono"><img src="assets/logo_monochrome_black.svg" alt=""><span class="logo-caption">Monocromática</span></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">3. Tipografia</h2>
+        <div class="type-grid three">
+            <div class="type-card"><div class="type-specimen serif">Cormorant Garamond</div><p>Títulos e subtítulos. Dá o toque elegante; usar em itálico nos subtítulos.</p></div>
+            <div class="type-card"><div class="type-specimen" style="font-family:'Inter',sans-serif;font-weight:400;">Inter Light / Regular</div><p>Textos narrativos, instruções e enunciados das pistas.</p></div>
+            <div class="type-card"><div class="type-specimen" style="font-family:'Fira Code',monospace;font-size:12pt;font-weight:400;">Fira Code</div><p>Cronômetro, enigmas, campos de resposta e rótulos.</p></div>
+        </div>
+    </section>
+    <footer class="page-footer"><span>CodeBreak: O Gabinete de Ada Lovelace • Manual de Identidade Visual</span><span class="page-num">Página 1 de 4</span></footer>
+</div>
+
+<!-- PÁGINA 2 -->
+<div class="page">
+    <header class="header-top">
+        <div class="header-meta">Universidade de Brasília · Departamento de Ciência da Computação · INFOSOC 2026/2</div>
+        <div class="header-inst"><img src="assets/unb_logo-1.png" alt="UnB"><span>CIC / UnB</span></div>
+    </header>
+    <section class="section">
+        <h2 class="section-title">4. Paleta de cores</h2>
+        <p>A paleta é sóbria: um fundo azul-marinho profundo, superfícies levemente mais claras e o <strong>ciano como único destaque</strong>. Roxo e verde aparecem apenas como apoio, em detalhes pequenos.</p>
+        <div class="color-row">
+            <div class="color-swatch"><div class="color-preview" style="background:#070B12"></div><div class="color-details"><div class="color-name">Marinho</div><div class="color-hex">#070B12</div><div class="color-role">Fundo do jogo</div></div></div>
+            <div class="color-swatch"><div class="color-preview" style="background:#0D131D;border-bottom:1px solid #E2E8F0"></div><div class="color-details"><div class="color-name">Superfície</div><div class="color-hex">#0D131D</div><div class="color-role">Painéis e cartões das pistas</div></div></div>
+            <div class="color-swatch"><div class="color-preview" style="background:#00A3E0"></div><div class="color-details"><div class="color-name">Ciano</div><div class="color-hex">#00A3E0</div><div class="color-role">Destaque, botões e progresso</div></div></div>
+            <div class="color-swatch"><div class="color-preview" style="background:#6C2B8A"></div><div class="color-details"><div class="color-name">Púrpura</div><div class="color-hex">#6C2B8A</div><div class="color-role">Filete dos enigmas</div></div></div>
+            <div class="color-swatch"><div class="color-preview" style="background:#008A52"></div><div class="color-details"><div class="color-name">Verde</div><div class="color-hex">#008A52</div><div class="color-role">Pista resolvida</div></div></div>
+        </div>
+        <p>O vermelho discreto <code>#C0505A</code> é reservado a erros e ao cronômetro nos últimos 60 segundos.</p>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">5. Tela inicial</h2>
+        <div class="screenshot-card">
+            <div class="screenshot-header"><span>INTERFACE REAL DO JOGO • ABERTURA</span><span class="mono-c">1200 × 750 px</span></div>
+            <div class="screenshot-img-wrap"><img src="assets/screenshots/01_tela_inicio.png" alt="Tela inicial"></div>
+            <div class="screenshot-desc"><strong>Composição:</strong> título serifado centralizado, um filete ciano, texto curto de contexto, três regras objetivas e dois botões de contorno fino: <em>Entrar na sala</em> e <em>Guia do professor</em>.</div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">6. Componentes de interface</h2>
+        <table class="clean-table">
+            <thead><tr><th style="width:24%">Elemento</th><th style="width:28%">Estilo</th><th>Uso no jogo</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Barra superior</strong></td><td><span class="tag-badge tag-cyan">Fina, com borda inferior</span></td><td>Nome da sala, progresso (n / 6) e cronômetro regressivo de 15 minutos.</td></tr>
+                <tr><td><strong>Cartão de pista</strong></td><td><span class="tag-badge tag-purple">Borda 1px + filete roxo</span></td><td>Título, enunciado, enigma em Fira Code, dica e campo de resposta.</td></tr>
+                <tr><td><strong>Pista resolvida</strong></td><td><span class="tag-badge tag-green">Borda verde</span></td><td>Bloqueia o campo e esmaece o enigma, sem animações chamativas.</td></tr>
+            </tbody>
+        </table>
+    </section>
+    <footer class="page-footer"><span>CodeBreak: O Gabinete de Ada Lovelace • Manual de Identidade Visual</span><span class="page-num">Página 2 de 4</span></footer>
+</div>
+
+<!-- PÁGINA 3 -->
+<div class="page">
+    <header class="header-top">
+        <div class="header-meta">Universidade de Brasília · Departamento de Ciência da Computação · INFOSOC 2026/2</div>
+        <div class="header-inst"><img src="assets/unb_logo-1.png" alt="UnB"><span>CIC / UnB</span></div>
+    </header>
+    <section class="section">
+        <h2 class="section-title">7. A sala: o gabinete de Ada</h2>
+        <p>A sala apresenta um texto breve sobre Ada Lovelace (1815–1852), filha do poeta Lord Byron, e a grade com as seis pistas. Quando todas ganham a borda verde, a porta se abre e a tela de vitória aparece.</p>
+        <div class="screenshot-card">
+            <div class="screenshot-header"><span>INTERFACE REAL DO JOGO • SALA ÚNICA</span><span class="mono-c">6 pistas • 15:00</span></div>
+            <div class="screenshot-img-wrap tall"><img src="assets/screenshots/03_sala_completa.png" alt="Sala completa"></div>
+            <div class="screenshot-desc"><strong>Estado de jogo:</strong> a Pista 01 está com a dica aberta e a Pista 02 recebeu uma resposta incorreta (borda vermelha por instantes e −30 s).</div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">8. Iconografia das pistas</h2>
+        <p>Cada pista tem um ícone de traço de 1,5 px, em ciano, usado em materiais impressos e no kit desplugado.</p>
+        <table class="clean-table">
+            <thead><tr><th style="width:10%">Ícone</th><th style="width:26%">Pista</th><th>Conceito de computação e fato histórico</th></tr></thead>
+            <tbody>
+                <tr><td><img class="ico" src="assets/icon_pista1_cartao.svg"></td><td><strong>01 · Cartões do tear</strong></td><td>Padrões binários; cartões perfurados de Jacquard inspiraram Ada.</td></tr>
+                <tr><td><img class="ico" src="assets/icon_pista2_cifra.svg"></td><td><strong>02 · Nome da máquina</strong></td><td>Cifra de substituição; Charles Babbage e a Máquina Analítica.</td></tr>
+                <tr><td><img class="ico" src="assets/icon_pista3_sequencia.svg"></td><td><strong>03 · Sequência de Ada</strong></td><td>Reconhecimento de padrões; a Nota G trabalhava com sequências numéricas.</td></tr>
+                <tr><td><img class="ico" src="assets/icon_pista4_linha_tempo.svg"></td><td><strong>04 · Linha do tempo</strong></td><td>Cálculo com datas: 1815 (nascimento) e 1843 (publicação das Notas).</td></tr>
+                <tr><td><img class="ico" src="assets/icon_pista5_algoritmo.svg"></td><td><strong>05 · Execute o algoritmo</strong></td><td>Algoritmo como sequência de passos; o primeiro programa da história.</td></tr>
+                <tr><td><img class="ico" src="assets/icon_pista6_charada.svg"></td><td><strong>06 · Charada final</strong></td><td>Interpretação de enunciado; retoma o cartão perfurado da Pista 01.</td></tr>
+            </tbody>
+        </table>
+    </section>
+    <footer class="page-footer"><span>CodeBreak: O Gabinete de Ada Lovelace • Manual de Identidade Visual</span><span class="page-num">Página 3 de 4</span></footer>
+</div>
+
+<!-- PÁGINA 4 -->
+<div class="page">
+    <header class="header-top">
+        <div class="header-meta">Universidade de Brasília · Departamento de Ciência da Computação · INFOSOC 2026/2</div>
+        <div class="header-inst"><img src="assets/unb_logo-1.png" alt="UnB"><span>CIC / UnB</span></div>
+    </header>
+    <section class="section">
+        <h2 class="section-title">9. Progresso e conclusão</h2>
+        <div class="screenshot-dual-grid">
+            <div class="screenshot-mini-card">
+                <div class="screenshot-mini-header">Pistas resolvidas (5 / 6)</div>
+                <div class="screenshot-mini-wrap"><img src="assets/screenshots/04_pistas_resolvidas.png" alt="" style="object-position:top"></div>
+                <div class="screenshot-mini-desc">A barra de progresso na parte superior avança a cada acerto. Cartões resolvidos ganham borda verde.</div>
+            </div>
+            <div class="screenshot-mini-card">
+                <div class="screenshot-mini-header">Tela de vitória</div>
+                <div class="screenshot-mini-wrap"><img src="assets/screenshots/05_vitoria.png" alt="" style="object-position:top"></div>
+                <div class="screenshot-mini-desc">Mostra o tempo restante e três fatos sobre Ada e a presença feminina na computação.</div>
+            </div>
+        </div>
+        <p>Se o tempo chegar a zero antes de todas as pistas serem resolvidas, uma tela simples em tom vermelho discreto convida a equipe a tentar de novo.</p>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">10. Guia do professor e gabarito</h2>
+        <div class="screenshot-dual-grid">
+            <div class="screenshot-mini-card">
+                <div class="screenshot-mini-header">Modal do guia do professor</div>
+                <div class="screenshot-mini-wrap"><img src="assets/screenshots/06_guia_professor.png" alt="" style="object-position:top"></div>
+                <div class="screenshot-mini-desc">Acessível pela tela inicial, traz a tabela com as respostas das 6 pistas.</div>
+            </div>
+            <div class="screenshot-mini-card">
+                <div class="screenshot-mini-header">Roteiro de aula (50 min)</div>
+                <div class="screenshot-mini-wrap" style="background:#F8FAFC;display:flex;align-items:center;height:145px;padding:12px">
+                    <div style="font-size:7.5pt;color:#334155;line-height:1.55;width:100%">
+                        <div><strong>1. Introdução (5 min):</strong> formação de duplas ou trios.</div>
+                        <div style="margin-top:4px"><strong>2. Jogo (15 min):</strong> as 6 pistas da sala de Ada.</div>
+                        <div style="margin-top:4px"><strong>3. Roda de conversa (25 min):</strong> estereótipos e presença feminina em TI.</div>
+                        <div style="margin-top:4px"><strong>4. Encerramento (5 min):</strong> feedback da turma.</div>
+                    </div>
+                </div>
+                <div class="screenshot-mini-desc">Adaptado ao tempo de uma aula escolar.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">11. Princípios de uso</h2>
+        <table class="clean-table">
+            <tbody>
+                <tr><td style="width:26%"><strong>Minimalismo</strong></td><td>Poucos elementos por tela, bordas de 1 px, sem neon, sombras fortes ou animações de destaque.</td></tr>
+                <tr><td><strong>Elegância</strong></td><td>Títulos em serifa, bastante espaço em branco e texto em tons suaves.</td></tr>
+                <tr><td><strong>Acessibilidade</strong></td><td>Contraste alto entre texto e fundo, rótulos nos campos e navegação por teclado.</td></tr>
+                <tr><td><strong>Inclusão</strong></td><td>Evitar a polarização rosa/azul; a narrativa valoriza Ada sem reduzir a computação a um único perfil.</td></tr>
+            </tbody>
+        </table>
+    </section>
+    <footer class="page-footer"><span>CodeBreak: O Gabinete de Ada Lovelace • Manual de Identidade Visual</span><span class="page-num">Página 4 de 4</span></footer>
+</div>
+</body>
+</html>

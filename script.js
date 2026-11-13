@@ -1,463 +1,234 @@
-// Base de Dados das 6 Salas (Sala 2 reformulada com decodificação ENIAC para Ensino Médio)
-const roomsData = [
+// ===== Configuração =====
+const TOTAL_TIME = 15 * 60;   // 15 minutos
+const PENALTY = 30;           // segundos perdidos por erro
+
+// ===== Pistas da sala de Ada Lovelace =====
+const clues = [
     {
-        id: 1,
-        badgeTitle: 'SALA_01:<strong class="highlight-cyan">INFÂNCIA</strong>',
-        phaseTag: 'FASE 1: INFÂNCIA & BRINQUEDOS',
-        targetTitle: 'Pioneira: Ada Lovelace',
-        loreHTML: `
-            <p>Você já reparou que, desde criança, meninos costumam ganhar blocos de montar, robôs e videogames, enquanto meninas são afastadas de jogos de lógica?</p>
-            <p>Nos anos 1980, as propagandas de TV decidiram vender os primeiros computadores pessoais apenas como <strong>"brinquedos para meninos"</strong>, criando uma barreira que dura até hoje.</p>
-            <p>Mas a história real começou muito antes: no século XIX, <strong>Ada Lovelace</strong> percebeu que uma máquina de cálculos seguia padrões parecidos com os cartões furados de um tear. Foi assim que uma mulher escreveu o <span class="code-badge">primeiro algoritmo</span> do mundo!</p>
-        `,
-        exeName: 'CARTAO_PERFURADO.exe',
-        instructions: 'Na máquina de Ada, o número 1 representa um furo no cartão e o 0 representa um espaço vazio. Observe como a posição do furo se comporta de uma linha para a outra e descubra qual deve ser a 4ª linha:',
-        matrixHTML: `
-            <div>Linha 1: &nbsp;0 &nbsp;0 &nbsp;0 &nbsp;1</div>
-            <div>Linha 2: &nbsp;0 &nbsp;0 &nbsp;1 &nbsp;0</div>
-            <div>Linha 3: &nbsp;0 &nbsp;1 &nbsp;0 &nbsp;0</div>
-            <div class="matrix-placeholder">Linha 4: &nbsp;_ &nbsp;_ &nbsp;_ &nbsp;_</div>
-        `,
-        terminalComment: '// Digite a sequência de 4 números da Linha 4 (apenas 0 e 1)',
-        placeholder: '',
-        maxLength: 7,
-        validAnswers: ['1000'],
-        hintText: '<strong>[PISTA]:</strong> Compare a Linha 1 com a Linha 2, e depois com a Linha 3. Existe apenas um dígito diferente no meio dos zeros, e ele está "caminhando" sempre na mesma direção.'
+        title: 'Os cartões do tear',
+        text: 'Ada se inspirou nos cartões perfurados do tear de Jacquard. Aqui, 1 é um furo e 0 é um espaço vazio. Qual é a 4ª linha?',
+        puzzle: '1) 0 0 0 1<br>2) 0 0 1 0<br>3) 0 1 0 0<br>4) _ _ _ _',
+        placeholder: '4 dígitos',
+        answers: ['1000'],
+        answerLabel: '1000',
+        hint: 'O furo caminha uma posição para a esquerda a cada linha.'
     },
     {
-        id: 2,
-        badgeTitle: 'SALA_02:<strong class="highlight-cyan">PIONEIRAS_ENIAC</strong>',
-        phaseTag: 'FASE 2: INÍCIO DA ERA ELETRÔNICA (ANOS 1940)',
-        targetTitle: 'As Programadoras do ENIAC',
-        loreHTML: `
-            <p>Nos anos 1940, durante a Segunda Guerra Mundial, o primeiro computador eletrônico digital de grande escala do mundo (o <strong>ENIAC</strong>) foi construído.</p>
-            <p>Embora a máquina física tenha sido construída por engenheiros, a sua programação — conectar cabos gigantescos e configurar chaves de lógica pesadas — foi confiada a um grupo brilhante de mulheres matemáticas, como <strong>Betty Holberton e Jean Bartik</strong>.</p>
-            <p>Elas precisavam decifrar códigos e instruções matemáticas complexas para fazer o gigante de válvulas funcionar!</p>
-        `,
-        exeName: 'DECODIFICADOR_ENIAC.exe',
-        instructions: 'Para destravar o terminal do ENIAC, use a tabela de símbolos abaixo para decodificar a palavra secreta de 5 letras que reinicia o sistema:',
-        matrixHTML: `
-            <div class="align-left">
-                <div>TABELA DE SÍMBOLOS &rarr; LETRAS:</div>
-                <div>[ ⚡ = E ] &nbsp; [ ⚙ = N ] &nbsp; [ ✦ = I ] &nbsp; [ ◈ = A ] &nbsp; [ ⚓ = C ]</div>
-                <hr class="divider" style="margin: 0.5rem 0;">
-                <div>SEQUÊNCIA DO PAINEL: ⚡ &nbsp; ⚙ &nbsp; ✦ &nbsp; ◈ &nbsp; ⚓</div>
-            </div>
-            <div class="matrix-placeholder">PALAVRA DE 5 LETRAS: _ _ _ _ _</div>
-        `,
-        terminalComment: '// Digite a palavra secreta formada pelos símbolos',
-        placeholder: '',
-        maxLength: 7,
-        validAnswers: ['ENIAC'],
-        hintText: '<strong>[PISTA]:</strong> Basta substituir cada símbolo da sequência do painel pela letra correspondente indicada na tabela acima.'
+        title: 'O nome da máquina',
+        text: 'O parceiro de Ada projetou a Máquina Analítica. Desloque cada letra uma posição para trás no alfabeto para descobrir o sobrenome dele.',
+        puzzle: 'C B C C B H F',
+        placeholder: 'sobrenome',
+        answers: ['BABBAGE'],
+        answerLabel: 'BABBAGE',
+        hint: 'C vira B, B vira A... É a cifra de César com deslocamento 1.'
     },
     {
-        id: 3,
-        badgeTitle: 'SALA_03:<strong class="highlight-cyan">ENSINO_MÉDIO</strong>',
-        phaseTag: 'FASE 3: ENSINO MÉDIO (14 A 18 ANOS)',
-        targetTitle: 'Pioneira: Grace Hopper',
-        loreHTML: `
-            <p>O Ensino Médio é a época de pensar no futuro e no ENEM. É justamente entre os 14 e 18 anos que muitas garotas desistem da tecnologia por acharem que "não levam jeito" (<em>Síndrome da Impostora</em>) ou por não verem outras mulheres na área. Hoje, <strong>menos de 20% das matrículas</strong> em computação no Brasil são femininas.</p>
-            <p>Nos anos 1950, <strong>Grace Hopper</strong> mudou essa lógica: ela criou o primeiro <span class="code-badge">compilador</span> — um programa que traduzia zeros e uns para palavras normais. Ela também colou no caderno um inseto real que havia travado um computador, popularizando a gíria que usamos até hoje para "erro no sistema".</p>
-        `,
-        exeName: 'TRADUTOR_HOPPER.exe',
-        instructions: 'Use o dicionário do tradutor de Grace Hopper abaixo para converter as três fileiras de números em letras e descobrir a famosa palavra de 3 letras:',
-        matrixHTML: `
-            <div class="align-left">
-                <div><strong>DICIONÁRIO DE TRADUÇÃO:</strong></div>
-                <div>[01000001 = A] &nbsp; [01000010 = B] &nbsp; [01000111 = G]</div>
-                <div>[01010010 = R] &nbsp; [01010101 = U]</div>
-                <hr class="divider" style="margin: 0.75rem 0;">
-                <div>1ª LETRA: 01000010</div>
-                <div>2ª LETRA: 01010101</div>
-                <div>3ª LETRA: 01000111</div>
-            </div>
-            <div class="matrix-placeholder">PALAVRA TRADUZIDA: _ _ _</div>
-        `,
-        terminalComment: '// Digite a palavra de 3 letras formada pela tradução',
-        placeholder: '',
-        maxLength: 5,
-        validAnswers: ['BUG'],
-        hintText: '<strong>[PISTA]:</strong> Você não precisa fazer contas! Basta procurar qual letra do Dicionário tem exatamente a mesma sequência de zeros e uns de cada uma das 3 linhas.'
+        title: 'A sequência de Ada',
+        text: 'Ada trabalhou com sequências numéricas na Nota G. Qual número vem a seguir?',
+        puzzle: '1, 1, 2, 3, 5, 8, ?',
+        placeholder: 'número',
+        answers: ['13'],
+        answerLabel: '13',
+        hint: 'Cada número é a soma dos dois anteriores.'
     },
     {
-        id: 4,
-        badgeTitle: 'SALA_04:<strong class="highlight-cyan">UNIVERSIDADE</strong>',
-        phaseTag: 'FASE 4: FACULDADE & CARREIRA TI',
-        targetTitle: 'Pioneira: Margaret Hamilton',
-        loreHTML: `
-            <p>Mesmo quando entram na faculdade, muitas jovens enfrentam um ambiente pouco acolhedor. Apenas <strong>15% a 20% concluem os cursos de TI</strong>, e poucas chegam a cargos de chefia — um fenômeno chamado de <em>Efeito Tesoura</em>.</p>
-            <p>Mas quando mulheres lideram, a história muda: em 1969, <strong>Margaret Hamilton</strong> chefiou a equipe que criou o software da nave Apollo 11. Segundos antes de tocar na Lua, o computador sobrecarregou. A missão só foi salva porque o código dela sabia descartar tarefas secundárias e focar apenas no que era essencial!</p>
-        `,
-        exeName: 'PAINEL_APOLLO.exe',
-        instructions: 'O alarme da nave disparou! Analise a tabela de processos abaixo e descubra o código numérico (ID) do único processo que atende às duas exigências da Regra de Segurança:',
-        matrixHTML: `
-            <div class="align-left">
-                <div>[ID: 04] Câmera Externa &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Prioridade: 20 | Essencial: NÃO</div>
-                <div>[ID: 11] Motor de Pouso &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Prioridade: 95 | Essencial: SIM</div>
-                <div>[ID: 18] Alarme de Cabine &nbsp;&nbsp;&nbsp;| Prioridade: 60 | Essencial: SIM</div>
-                <div>[ID: 20] Antena Secundária &nbsp;&nbsp;| Prioridade: 92 | Essencial: NÃO</div>
-                <hr class="divider" style="margin: 0.75rem 0;">
-                <div><strong>REGRA:</strong> Manter apenas o processo que seja <strong>Essencial: SIM</strong> e tenha <strong>Prioridade maior que 90</strong>.</div>
-            </div>
-            <div class="matrix-placeholder">DIGITE O ID ESCOLHIDO: _ _</div>
-        `,
-        terminalComment: '// Digite apenas os 2 números do ID que salvará o pouso lunar',
-        placeholder: '',
-        maxLength: 4,
-        validAnswers: ['11'],
-        hintText: '<strong>[PISTA]:</strong> Cuidado com as pegadinhas: dois processos têm prioridade acima de 90 e dois são marcados como essenciais, mas apenas um cumpre as duas condições na mesma linha.'
+        title: 'Linha do tempo',
+        text: 'Ada nasceu em 1815 e suas Notas foram publicadas em 1843. Quantos anos separam os dois acontecimentos?',
+        puzzle: '1843 − 1815 = ?',
+        placeholder: 'anos',
+        answers: ['28'],
+        answerLabel: '28',
+        hint: 'É uma subtração simples.'
     },
     {
-        id: 5,
-        badgeTitle: 'SALA_05:<strong class="highlight-cyan">DESPLUGADA</strong>',
-        phaseTag: 'FASE 5: EDUCAÇÃO & COMPUTAÇÃO DESPLUGADA',
-        targetTitle: 'Metodologia Ativa nas Escolas',
-        loreHTML: `
-            <p>Para ensinar pensamento computacional em escolas públicas que não possuem computadores ou internet de alta velocidade, educadores utilizam a <strong>Computação Desplugada</strong>.</p>
-            <p>Através de brincadeiras de tabuleiros e desafios físicos, os estudantes aprendem lógica e algoritmos espaciais sem tocar em uma tela.</p>
-            <p>Para abrir esta porta, vocês precisam executar mentalmente o algoritmo de navegação na matriz numérica e descobrir qual número está na célula final!</p>
-        `,
-        exeName: 'ALGORITMO_VETOR.exe',
-        instructions: 'Execute o algoritmo de coordenadas na matriz 3x3 abaixo para encontrar o valor numérico armazenado na posição final:',
-        matrixHTML: `
-            <div class="align-left">
-                <div>MATRIZ NUMÉRICA 3x3:</div>
-                <div>[Linha 1] &nbsp; 3 &nbsp;|&nbsp; 5 &nbsp;|&nbsp; 1</div>
-                <div>[Linha 2] &nbsp; 7 &nbsp;|&nbsp; 2 &nbsp;|&nbsp; 9</div>
-                <div>[Linha 3] &nbsp; 4 &nbsp;|&nbsp; 8 &nbsp;|&nbsp; 6</div>
-                <hr class="divider" style="margin: 0.5rem 0;">
-                <div>INSTRUÇÕES DE ROTEAMENTO (ALGORITMO):</div>
-                <div>1. Inicie na célula central (valor 2).</div>
-                <div>2. Mova 1 passo para Cima.</div>
-                <div>3. Mova 1 passo para a Esquerda.</div>
-                <div>4. Mova 1 passo para Baixo.</div>
-                <div>5. Mova 2 passos para a Direita.</div>
-            </div>
-            <div class="matrix-placeholder">VALOR DA CÉLULA FINAL: _</div>
-        `,
-        terminalComment: '// Digite o número exato localizado na célula final do algoritmo',
-        placeholder: '',
-        maxLength: 3,
-        validAnswers: ['9'],
-        hintText: '<strong>[PISTA]:</strong> Partindo do centro (2), ir para Cima leva ao 5. Indo 2 passos para a Direita chega ao número 1. Descer 1 passo a partir do 1 leva direto à terceira linha.'
+        title: 'Execute o algoritmo',
+        text: 'Um algoritmo é uma sequência de passos. Execute este, na ordem, e informe o resultado final.',
+        puzzle: 'início: 3<br>1. multiplique por 4<br>2. subtraia 2<br>3. divida por 5',
+        placeholder: 'resultado',
+        answers: ['2'],
+        answerLabel: '2',
+        hint: '3 × 4 = 12; depois 12 − 2 = 10.'
     },
     {
-        id: 6,
-        badgeTitle: 'SALA_06:<strong class="highlight-cyan">SOCIEDADE_IA</strong>',
-        phaseTag: 'FASE 6: FUTURO & INTELIGÊNCIA ARTIFICIAL',
-        targetTitle: 'Desafio: Além da Visão Binária',
-        loreHTML: `
-            <p>Hoje, programas de Inteligência Artificial (IA) ajudam a selecionar currículos, aprovar bolsas e reconhecer rostos. Mas se as equipes que criam essas IAs não tiverem diversidade, os robôs aprendem preconceitos humanos (os chamados <em>vieses algorítmicos</em>).</p>
-            <p>Por muito tempo, até os projetos sobre igualdade olhavam para gênero apenas de forma binária (homem cis vs. mulher cis). Para que a tecnologia seja justa, ela precisa acolher <strong>pessoas não-binárias, homens e mulheres trans e todas as realidades sociais</strong>.</p>
-            <p>Para abrir a última porta, lembre-se do princípio central deste projeto: a tecnologia deve ser <span class="code-badge">plural</span> para atender a toda a sociedade.</p>
-        `,
-        exeName: 'AUDITORIA_IA.exe',
-        instructions: 'O sistema de IA do laboratório travou porque foi programado com uma regra antiga que exclui pessoas fora do padrão binário. Complete o comando abaixo com a palavra de 6 letras destacada no texto ao lado:',
-        matrixHTML: `
-            <div class="align-left">
-                <div>CONFIGURAÇÃO ATUAL DA IA:</div>
-                <div>&gt; modo_de_visao = "RESTRITO_BINARIO"</div>
-                <div>&gt; resultado = [ERRO: EXCLUSÃO DETECTADA]</div>
-                <hr class="divider" style="margin: 0.75rem 0;">
-                <div>ATUALIZAÇÃO DE SEGURANÇA:</div>
-                <div>"A tecnologia não deve ser excludente; ela deve ser <strong>_ _ _ _ _ _</strong> para acolher toda a diversidade."</div>
-            </div>
-            <div class="matrix-placeholder">NOVA CONFIGURAÇÃO (6 LETRAS): _ _ _ _ _ _</div>
-        `,
-        terminalComment: '// Digite a palavra de 6 letras que corrige a visão da IA',
-        placeholder: '',
-        maxLength: 10,
-        validAnswers: ['PLURAL'],
-        hintText: '<strong>[PISTA]:</strong> Leia o último parágrafo do quadro da esquerda. A palavra que falta está destacada em azul brilhante.'
+        title: 'Charada final',
+        text: 'Sou feito de furos e dou ordens a teares e a máquinas. Sem mim, a máquina de Ada não saberia o que fazer. O que sou?',
+        puzzle: '_ _ _ _ _ _  ( 6 letras )',
+        placeholder: 'resposta',
+        answers: ['CARTAO'],
+        answerLabel: 'CARTÃO',
+        hint: 'Pense na primeira pista. Seria perfurado.'
     }
 ];
 
-// Seleção de elementos do DOM
-const topBar = document.getElementById('top-bar');
-const roomTitleBadge = document.getElementById('room-title-badge');
-const timerDisplay = document.getElementById('timer-display');
-const btnSound = document.getElementById('btn-sound');
+// ===== Elementos =====
+const $ = (id) => document.getElementById(id);
+const startScreen = $('start-screen'), roomScreen = $('room-screen');
+const victoryScreen = $('victory-screen'), gameoverScreen = $('gameover-screen');
+const topBar = $('top-bar'), timerDisplay = $('timer-display');
+const cluesGrid = $('clues-grid'), feedback = $('feedback');
+const progressText = $('progress-text'), progressFill = $('progress-fill');
+const teacherModal = $('teacher-modal');
 
-const startScreen = document.getElementById('start-screen');
-const roomScreen = document.getElementById('room-screen');
-const victoryScreen = document.getElementById('victory-screen');
-const gameoverScreen = document.getElementById('gameover-screen');
-
-const teacherModal = document.getElementById('teacher-modal');
-const btnOpenGuide = document.getElementById('btn-open-guide');
-const btnCloseGuide = document.getElementById('btn-close-guide');
-const btnCloseGuideBottom = document.getElementById('btn-close-guide-bottom');
-
-const roomPhaseTag = document.getElementById('room-phase-tag');
-const roomTargetTitle = document.getElementById('room-target-title');
-const roomLoreContent = document.getElementById('room-lore-content');
-const puzzleExeName = document.getElementById('puzzle-exe-name');
-const puzzleInstructions = document.getElementById('puzzle-instructions');
-const matrixBox = document.getElementById('matrix-box');
-const terminalLabel = document.getElementById('terminal-label');
-const transitionMsg = document.getElementById('transition-msg');
-
-const btnStart = document.getElementById('btn-start');
-const btnSubmit = document.getElementById('btn-submit');
-const btnRestart = document.getElementById('btn-restart');
-const btnRetry = document.getElementById('btn-retry');
-const btnHint = document.getElementById('btn-hint');
-
-const codeInput = document.getElementById('code-input');
-const inputWrapper = document.getElementById('input-wrapper');
-const errorMsg = document.getElementById('error-msg');
-const hintBox = document.getElementById('hint-box');
-const finalTimeSpan = document.getElementById('final-time');
-
-// Estado do Jogo
-let currentRoomIndex = 0;
-let timeRemaining = 20 * 60; // 20 minutos para as 6 salas
+let timeRemaining = TOTAL_TIME;
 let timerInterval = null;
-let soundEnabled = true;
-let isTransitioning = false;
+let solved = new Set();
+let soundOn = true;
+let audioCtx = null;
 
-// Sintetizador de Áudio Nativo (Web Audio API)
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-function playTone(freq, type, duration) {
-    if (!soundEnabled) return;
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
+// ===== Som =====
+function beep(freq, dur, type = 'sine', vol = 0.05) {
+    if (!soundOn) return;
+    try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.type = type; osc.frequency.value = freq;
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + dur);
+    } catch (e) { /* áudio indisponível */ }
 }
+const soundClick = () => beep(500, 0.06);
+const soundOk = () => { beep(523, 0.12); setTimeout(() => beep(784, 0.2), 110); };
+const soundError = () => beep(160, 0.25, 'triangle', 0.07);
 
-function playSuccessSound() {
-    playTone(523.25, 'sine', 0.12); // C5
-    setTimeout(() => playTone(659.25, 'sine', 0.12), 110); // E5
-    setTimeout(() => playTone(783.99, 'sine', 0.25), 220); // G5
-}
-
-function playErrorSound() {
-    playTone(160, 'sawtooth', 0.25);
-}
-
-function playGameOverSound() {
-    playTone(200, 'sawtooth', 0.2);
-    setTimeout(() => playTone(140, 'sawtooth', 0.4), 200);
-}
-
-function playClickSound() {
-    playTone(440, 'triangle', 0.08);
-}
-
-// Alternar Som ON/OFF
-btnSound.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    btnSound.textContent = soundEnabled ? '[SOM: ON]' : '[SOM: OFF]';
+$('btn-sound').addEventListener('click', () => {
+    soundOn = !soundOn;
+    $('btn-sound').textContent = soundOn ? 'som: on' : 'som: off';
 });
 
-// Controle do Modal do Guia do Professor
-function openTeacherGuide() {
-    playClickSound();
-    teacherModal.classList.remove('hidden');
+// ===== Utilidades =====
+const formatTime = (s) =>
+    `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+
+const normalize = (v) =>
+    v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toUpperCase();
+
+function updateTimerUI() {
+    timerDisplay.textContent = formatTime(timeRemaining);
+    timerDisplay.classList.toggle('low', timeRemaining <= 60);
 }
 
-function closeTeacherGuide() {
-    playClickSound();
-    teacherModal.classList.add('hidden');
+// ===== Renderização =====
+function renderClues() {
+    cluesGrid.innerHTML = '';
+    clues.forEach((c, i) => {
+        const el = document.createElement('article');
+        el.className = 'clue';
+        el.id = `clue-${i}`;
+        el.innerHTML = `
+            <div class="clue-head">
+                <span class="clue-num mono">PISTA ${String(i + 1).padStart(2, '0')}</span>
+                <span class="clue-status mono">${solved.has(i) ? 'resolvida ✓' : ''}</span>
+            </div>
+            <h3 class="clue-title">${c.title}</h3>
+            <p class="clue-text">${c.text}</p>
+            <div class="clue-puzzle">${c.puzzle}</div>
+            <button class="hint-toggle" type="button">ver dica</button>
+            <p class="clue-hint hidden">${c.hint}</p>
+            <form class="clue-form" autocomplete="off">
+                <input type="text" placeholder="${c.placeholder}" aria-label="Resposta da pista ${i + 1}">
+                <button type="submit">enviar</button>
+            </form>`;
+
+        el.querySelector('.hint-toggle').addEventListener('click', () => {
+            soundClick();
+            el.querySelector('.clue-hint').classList.toggle('hidden');
+        });
+        el.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            checkAnswer(i, el.querySelector('input').value);
+        });
+        cluesGrid.appendChild(el);
+    });
 }
 
-btnOpenGuide.addEventListener('click', openTeacherGuide);
-btnCloseGuide.addEventListener('click', closeTeacherGuide);
-btnCloseGuideBottom.addEventListener('click', closeTeacherGuide);
+function updateProgress() {
+    progressText.textContent = `${solved.size} / ${clues.length}`;
+    progressFill.style.width = `${(solved.size / clues.length) * 100}%`;
+}
 
-// Fecha o modal ao clicar fora do cartão ou apertar ESC
-teacherModal.addEventListener('click', (event) => {
-    if (event.target === teacherModal) {
-        closeTeacherGuide();
+// ===== Lógica =====
+function checkAnswer(i, value) {
+    if (solved.has(i)) return;
+    const el = $(`clue-${i}`);
+
+    if (clues[i].answers.includes(normalize(value))) {
+        solved.add(i);
+        soundOk();
+        el.classList.add('solved');
+        el.querySelector('.clue-status').textContent = 'resolvida ✓';
+        feedback.classList.add('hidden');
+        updateProgress();
+        if (solved.size === clues.length) setTimeout(victory, 700);
+    } else {
+        soundError();
+        timeRemaining = Math.max(0, timeRemaining - PENALTY);
+        updateTimerUI();
+        timerDisplay.classList.add('flash');
+        setTimeout(() => timerDisplay.classList.remove('flash'), 400);
+        el.classList.add('wrong');
+        setTimeout(() => el.classList.remove('wrong'), 400);
+        feedback.textContent = `Resposta incorreta na pista ${i + 1}. −${PENALTY}s no cronômetro.`;
+        feedback.classList.remove('hidden');
+        if (timeRemaining === 0) gameOver();
     }
-});
-
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !teacherModal.classList.contains('hidden')) {
-        closeTeacherGuide();
-    }
-});
-
-// Formata segundos para MM:SS
-function formatTime(seconds) {
-    if (seconds < 0) seconds = 0;
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
-// Aciona a tela de Game Over quando o tempo zera
-function triggerGameOver() {
-    stopTimer();
-    playGameOverSound();
-    roomScreen.classList.add('hidden');
-    topBar.classList.add('hidden');
-    gameoverScreen.classList.remove('hidden');
-}
-
-// Inicia a contagem regressiva
 function startTimer() {
     clearInterval(timerInterval);
-    timeRemaining = 20 * 60;
-    timerDisplay.textContent = formatTime(timeRemaining);
-
     timerInterval = setInterval(() => {
-        if (timeRemaining > 0) {
-            timeRemaining--;
-            timerDisplay.textContent = formatTime(timeRemaining);
-            if (timeRemaining === 0) {
-                triggerGameOver();
-            }
-        } else {
-            triggerGameOver();
-        }
+        timeRemaining--;
+        updateTimerUI();
+        if (timeRemaining <= 0) gameOver();
     }, 1000);
 }
 
-function stopTimer() {
+function showOnly(screen) {
+    [startScreen, roomScreen, victoryScreen, gameoverScreen].forEach(s => s.classList.add('hidden'));
+    screen.classList.remove('hidden');
+}
+
+function gameOver() {
     clearInterval(timerInterval);
+    timeRemaining = 0;
+    updateTimerUI();
+    soundError();
+    topBar.classList.add('hidden');
+    showOnly(gameoverScreen);
 }
 
-// Atualiza os indicadores visuais de progresso (01 a 06)
-function updateProgressPills(activeIndex) {
-    for (let i = 0; i < 6; i++) {
-        const pill = document.getElementById(`step-${i + 1}`);
-        if (pill) {
-            pill.classList.remove('active', 'completed');
-            if (i < activeIndex) {
-                pill.classList.add('completed');
-            } else if (i === activeIndex) {
-                pill.classList.add('active');
-            }
-        }
-    }
+function victory() {
+    clearInterval(timerInterval);
+    $('final-time').textContent = formatTime(timeRemaining);
+    topBar.classList.add('hidden');
+    showOnly(victoryScreen);
 }
 
-// Carrega os dados da sala atual na interface
-function loadRoom(index) {
-    const room = roomsData[index];
-    isTransitioning = false;
-
-    roomTitleBadge.innerHTML = room.badgeTitle;
-    roomPhaseTag.textContent = room.phaseTag;
-    roomTargetTitle.textContent = room.targetTitle;
-    roomLoreContent.innerHTML = room.loreHTML;
-
-    puzzleExeName.textContent = room.exeName;
-    puzzleInstructions.textContent = room.instructions;
-    matrixBox.innerHTML = room.matrixHTML;
-    terminalLabel.textContent = room.terminalComment;
-
-    codeInput.value = '';
-    codeInput.placeholder = room.placeholder;
-    codeInput.maxLength = room.maxLength;
-    hintBox.innerHTML = room.hintText;
-
-    errorMsg.classList.add('hidden');
-    hintBox.classList.add('hidden');
-    transitionMsg.classList.add('hidden');
-
-    updateProgressPills(index);
-    setTimeout(() => codeInput.focus(), 100);
-}
-
-// Inicia o Jogo a partir da Sala 01
 function startGame() {
-    playClickSound();
-    currentRoomIndex = 0;
-
-    startScreen.classList.add('hidden');
-    victoryScreen.classList.add('hidden');
-    gameoverScreen.classList.add('hidden');
+    soundClick();
+    solved = new Set();
+    timeRemaining = TOTAL_TIME;
     teacherModal.classList.add('hidden');
-
+    feedback.classList.add('hidden');
+    renderClues();
+    updateProgress();
+    updateTimerUI();
     topBar.classList.remove('hidden');
-    roomScreen.classList.remove('hidden');
-
-    loadRoom(currentRoomIndex);
+    showOnly(roomScreen);
+    window.scrollTo(0, 0);
     startTimer();
 }
 
-// Mostrar/Ocultar Pista Dinâmica
-btnHint.addEventListener('click', () => {
-    playClickSound();
-    hintBox.classList.toggle('hidden');
-});
+// ===== Guia do professor =====
+$('answers-body').innerHTML = clues.map((c, i) =>
+    `<tr><td>${i + 1}</td><td>${c.title}</td><td>${c.answerLabel}</td></tr>`).join('');
 
-// Valida a senha da sala atual e avança para a próxima
-function checkCode() {
-    if (isTransitioning) return;
+$('btn-open-guide').addEventListener('click', () => { soundClick(); teacherModal.classList.remove('hidden'); });
+$('btn-close-guide').addEventListener('click', () => teacherModal.classList.add('hidden'));
+teacherModal.addEventListener('click', (e) => { if (e.target === teacherModal) teacherModal.classList.add('hidden'); });
 
-    const rawValue = codeInput.value.replace(/\s+/g, '').trim().toUpperCase();
-    const currentRoom = roomsData[currentRoomIndex];
-
-    if (currentRoom.validAnswers.includes(rawValue)) {
-        playSuccessSound();
-        errorMsg.classList.add('hidden');
-        isTransitioning = true;
-
-        // Se ainda houver salas seguintes, faz transição suave
-        if (currentRoomIndex < roomsData.length - 1) {
-            transitionMsg.classList.remove('hidden');
-            setTimeout(() => {
-                currentRoomIndex++;
-                loadRoom(currentRoomIndex);
-            }, 900);
-        } else {
-            // Concluiu a Sala 6 -> Tela de Vitória Final
-            stopTimer();
-            finalTimeSpan.textContent = formatTime(timeRemaining);
-            roomScreen.classList.add('hidden');
-            topBar.classList.add('hidden');
-            victoryScreen.classList.remove('hidden');
-        }
-    } else {
-        playErrorSound();
-        
-        // PENALIDADE DE TEMPO: Diminui 30 segundos a cada erro
-        timeRemaining = Math.max(0, timeRemaining - 30);
-        timerDisplay.textContent = formatTime(timeRemaining);
-        
-        // Efeito visual de alerta no cronômetro
-        timerDisplay.classList.add('timer-flash');
-        setTimeout(() => timerDisplay.classList.remove('timer-flash'), 400);
-
-        if (timeRemaining === 0) {
-            triggerGameOver();
-            return;
-        }
-
-        errorMsg.classList.remove('hidden');
-        inputWrapper.classList.add('shake-error');
-
-        setTimeout(() => {
-            inputWrapper.classList.remove('shake-error');
-        }, 350);
-
-        codeInput.select();
-    }
-}
-
-// Eventos Principais
-btnStart.addEventListener('click', startGame);
-btnSubmit.addEventListener('click', checkCode);
-btnRestart.addEventListener('click', startGame);
-btnRetry.addEventListener('click', startGame);
-
-codeInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-        checkCode();
-    }
-});
+// ===== Eventos =====
+$('btn-start').addEventListener('click', startGame);
+$('btn-restart').addEventListener('click', startGame);
+$('btn-retry').addEventListener('click', startGame);

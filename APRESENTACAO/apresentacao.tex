@@ -1,0 +1,412 @@
+% Compilar com: latexmk -xelatex apresentacao.tex
+\documentclass[aspectratio=169, 10pt, t]{beamer}
+
+% --- Pacotes e fontes (Cormorant Garamond se instalada; senão EB Garamond) ---
+\usepackage{fontspec}
+\usepackage[brazilian]{babel}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage[skins]{tcolorbox}
+\usepackage{xcolor}
+
+\setmainfont{Inter}
+\setsansfont{Inter}
+\setmonofont{Fira Code}[Scale=0.88]
+\IfFontExistsTF{Cormorant Garamond}{%
+  \newfontfamily\titlefont{Cormorant Garamond}[Scale=1.12]}{%
+  \newfontfamily\titlefont{Linux Libertine O}[Scale=1.05]}
+
+% --- Paleta minimalista (mesma do jogo) ---
+\definecolor{Bg}{HTML}{070B12}
+\definecolor{Panel}{HTML}{0C121C}
+\definecolor{Line}{HTML}{233044}
+\definecolor{Cyan}{HTML}{00A3E0}
+\definecolor{TextMain}{HTML}{E6EDF5}
+\definecolor{TextMuted}{HTML}{8A97A8}
+
+% --- Tema Beamer enxuto ---
+\usetheme{default}
+\setbeamercolor{background canvas}{bg=Bg}
+\setbeamercolor{normal text}{fg=TextMain, bg=Bg}
+\setbeamercolor{structure}{fg=Cyan}
+\setbeamercolor{item}{fg=Cyan}
+\setbeamercolor{subitem}{fg=Cyan}
+\setbeamercolor{frametitle}{fg=TextMain, bg=Bg}
+\setbeamercolor{title}{fg=TextMain}
+\setbeamercolor{subtitle}{fg=Cyan}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\raisebox{0.1ex}{\scriptsize\textendash}}
+\setbeamertemplate{itemize subitem}{\raisebox{0.1ex}{\scriptsize\textendash}}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamerfont{itemize/enumerate body}{size=\small}
+\setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}
+\setlength{\leftmargini}{1.1em}
+
+% Título do quadro: serifado, fio fino em ciano
+\setbeamertemplate{frametitle}{%
+  \vskip 1.1em
+  \hspace*{0.3em}{\titlefont\Large\color{TextMain}\insertframetitle\par}
+  \vskip 0.25em
+  \hspace*{0.3em}{\color{Cyan}\rule{2.2em}{0.6pt}}\par
+  \vskip -0.35em
+}
+
+% Rodapé discreto
+\setbeamertemplate{footline}{%
+  \leavevmode\hbox to \paperwidth{%
+    \hspace{1.2em}\color{TextMuted}\ttfamily\tiny CodeBreak / O Gabinete de Ada Lovelace%
+    \hfill INFOSOC · UnB \quad \insertframenumber{} / \inserttotalframenumber\hspace{1.2em}}%
+  \vskip 1.0em
+}
+
+% Caixas: borda fina, sem sombra
+\tcbset{
+  colback=Panel, colframe=Line, coltext=TextMain,
+  boxrule=0.5pt, arc=1.5pt, boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\ttfamily\scriptsize, coltitle=Cyan, colbacktitle=Panel,
+  toptitle=3pt, bottomtitle=3pt, titlerule=0.4pt
+}
+\newtcolorbox{card}[1]{enhanced, title={#1}}
+\newcommand{\eyebrow}[1]{{\ttfamily\scriptsize\color{Cyan}\MakeUppercase{#1}}}
+\newcommand{\muted}[1]{{\color{TextMuted}#1}}
+
+% --- Metadados ---
+\title{CodeBreak}
+\subtitle{O Gabinete de Ada Lovelace}
+\author{Marcus Cavalcante \and Kawan Borges}
+\institute{Departamento de Ciência da Computação (CIC) · Universidade de Brasília\\
+  Informática e Sociedade (INFOSOC) · 2026/2}
+\date{16 de outubro de 2026}
+
+\begin{document}
+
+% ------------------------------------------------------------------ 1. Capa (0:30)
+\begin{frame}[plain]
+  \vspace*{3.2em}
+  \hspace*{1.5em}\begin{minipage}{0.85\textwidth}
+    \eyebrow{Informática e Sociedade · UnB}\\[0.9em]
+    {\titlefont\fontsize{44}{46}\selectfont CodeBreak}\\[0.2em]
+    {\titlefont\itshape\fontsize{22}{24}\selectfont\color{Cyan}O Gabinete de Ada Lovelace}\\[0.7em]
+    {\color{Cyan}\rule{3.5em}{0.6pt}}\\[0.8em]
+    {\small\color{TextMuted}Escape room educativo digital sobre gênero e computação,\\
+    para o Ensino Médio. Londres, 1843: seis pistas, quinze minutos.}\\[1.6em]
+    {\footnotesize Marcus Cavalcante · Kawan Borges}\\[0.3em]
+    {\scriptsize\color{TextMuted}Departamento de Ciência da Computação (CIC) · Universidade de Brasília\\
+    INFOSOC 2026/2 · Marco de 16 de outubro de 2026}
+  \end{minipage}
+\end{frame}
+
+% ------------------------------------------------------------------ 2. Roteiro (0:45)
+\begin{frame}{Roteiro da apresentação}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Bloco I · Ideia e problema}
+        \begin{enumerate}
+          \item Contexto e motivação
+          \item Objeto e público-alvo
+          \item Justificativa e diferencial
+          \item Objetivos
+        \end{enumerate}
+      \end{card}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Bloco II · Produto e planejamento}
+        \begin{enumerate}\setcounter{enumi}{4}
+          \item A sala: O Gabinete de Ada Lovelace
+          \item As seis pistas
+          \item Arquitetura técnica
+          \item Referencial teórico
+          \item Cronograma e identidade visual
+        \end{enumerate}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 3. Contexto (1:15)
+\begin{frame}{Contexto e motivação}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{card}{O cenário}
+        \begin{itemize}
+          \item \textbf{Pioneirismo apagado:} Ada Lovelace escreveu o primeiro algoritmo (1843); mulheres programaram o ENIAC;
+          \item \textbf{Virada dos anos 80:} microcomputadores vendidos como brinquedo de meninos;
+          \item \textbf{Hoje:} menos de 20\% das matrículas em computação no Brasil são de mulheres (INEP/SBC).
+        \end{itemize}
+      \end{card}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{card}{O momento crítico}
+        \begin{itemize}
+          \item O Ensino Médio (14 a 18 anos) é onde muitas alunas se afastam de Exatas;
+          \item Falta de modelos e síndrome da impostora;
+          \item Sem diversidade, softwares e IAs reproduzem vieses.
+        \end{itemize}
+      \end{card}
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+  \begin{center}{\titlefont\itshape\normalsize\color{Cyan}Como transformar dados frios de exclusão em uma experiência que gere empatia?}\end{center}
+\end{frame}
+
+% ------------------------------------------------------------------ 4. Objeto (1:00)
+\begin{frame}{Objeto do trabalho e público-alvo}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{card}{O produto}
+        \textbf{CodeBreak: O Gabinete de Ada Lovelace}
+        \begin{itemize}
+          \item Escape room digital com \textbf{uma única sala temática}: o gabinete de Ada, em Londres, 1843;
+          \item Seis pistas independentes, resolvidas em qualquer ordem, em equipe;
+          \item A porta só abre quando todas as pistas são resolvidas.
+        \end{itemize}
+      \end{card}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{card}{Público-alvo: Ensino Médio}
+        \begin{itemize}
+          \item \textbf{Faixa etária:} 14 a 18 anos;
+          \item \textbf{Sem código prévio:} enigmas desenvolvem pensamento computacional;
+          \item \textbf{Versátil:} laboratório, celular ou versão desplugada (papel e caneta);
+          \item \textbf{Mediação:} guia do professor com gabarito.
+        \end{itemize}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 5. Justificativa (1:00)
+\begin{frame}{Justificativa e diferencial}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Por que um escape room}
+        \begin{itemize}
+          \item \textbf{Efeito tesoura} (\textit{leaky pipeline}): maior evasão feminina e poucas mulheres na liderança;
+          \item O jogo gera \textbf{vivência empática}: o aluno é protagonista, não plateia;
+          \item Alinhado à BNCC Computação (Cultura Digital, ética e cooperação).
+        \end{itemize}
+      \end{card}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Além da visão binária}
+        \begin{itemize}
+          \item A maioria dos projetos trata gênero de modo binário (homem × mulher cis);
+          \item O guia de debate amplia a conversa para identidades não binárias, pessoas trans e interseccionalidades;
+          \item Tecnologia plural, para toda a sociedade.
+        \end{itemize}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 6. Objetivos (0:45)
+\begin{frame}{Objetivos do trabalho final}
+  \begin{card}{Objetivo geral}
+    \small Desenvolver, documentar e validar o jogo educativo \textbf{CodeBreak}, fomentando a reflexão sobre equidade de gênero e o pensamento computacional no Ensino Médio.
+  \end{card}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Pedagógicos}
+        \footnotesize
+        \begin{itemize}
+          \item Desmistificar a computação como habilidade masculina;
+          \item Apresentar Ada Lovelace como referência;
+          \item Discutir apagamento histórico e representatividade.
+        \end{itemize}
+      \end{card}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Técnicos e metodológicos}
+        \footnotesize
+        \begin{itemize}
+          \item Aplicação web responsiva (HTML, CSS, JS);
+          \item Guia do professor com gabarito e debate;
+          \item Validar usabilidade e tempo de fuga.
+        \end{itemize}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 7. A sala (1:30)
+\begin{frame}{A sala: O Gabinete de Ada Lovelace}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{card}{Narrativa}
+        Londres, 1843. Os jogadores estão trancados no gabinete de Ada Lovelace, filha de Lord Byron, que ao traduzir um artigo sobre a Máquina Analítica de Babbage acrescentou notas com o \textbf{primeiro algoritmo da história}. Para abrir a porta, é preciso encontrar as pistas que ela deixou.
+      \end{card}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{card}{Regras}
+        \begin{itemize}
+          \item \textbf{Tempo total:} 15 minutos;
+          \item \textbf{Penalidade:} $-30$ s por resposta errada;
+          \item \textbf{Vitória:} acertar todas as 6 pistas;
+          \item \textbf{Dicas:} uma por pista;
+          \item \textbf{Fecho:} tela de vitória com fatos históricos e debate guiado.
+        \end{itemize}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 8. As seis pistas (1:30)
+\begin{frame}{As seis pistas}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \arrayrulecolor{Line}
+  \begin{tabularx}{\textwidth}{c l X l}
+    \toprule
+    \textcolor{Cyan}{\#} & \textcolor{Cyan}{Pista} & \textcolor{Cyan}{Enigma} & \textcolor{Cyan}{Conceito} \\
+    \midrule
+    1 & Os cartões do tear & Cartões perfurados binários (1 = furo): completar a 4ª linha & Representação binária \\
+    2 & O nome da máquina & Cifra de César (desloc. $-1$) revela \textbf{BABBAGE} & Criptografia, padrões \\
+    3 & A sequência de Ada & 1, 1, 2, 3, 5, 8, ?\ (Fibonacci) & Padrões e recorrência \\
+    4 & Linha do tempo & Anos entre 1815 (nascimento) e 1843 (Notas) & Cálculo, contexto histórico \\
+    5 & Execute o algoritmo & Seguir passos na ordem a partir de um valor inicial & Algoritmo \\
+    6 & Charada final & Objeto de furos que dá ordens às máquinas: \textbf{CARTÃO} & Síntese e dedução \\
+    \bottomrule
+  \end{tabularx}
+  \vspace{0.5em}
+
+  {\scriptsize\muted{As respostas completas ficam no guia do professor, dentro do jogo.}}
+\end{frame}
+
+% ------------------------------------------------------------------ 9. Arquitetura (1:00)
+\begin{frame}{Arquitetura do produto}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \begin{card}{Por que software web}
+        \begin{itemize}
+          \item \textbf{Acesso universal:} roda em navegador, no PC da escola ou no celular, sem instalação;
+          \item \textbf{Custo zero de distribuição:} sem maquete física;
+          \item \textbf{Gamificação:} cronômetro regressivo, penalidade, dicas e sons opcionais;
+          \item \textbf{Escalável:} qualquer escola pública pode adotar.
+        \end{itemize}
+      \end{card}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{card}{Estrutura do código}
+        \begin{itemize}
+          \item \texttt{index.html}: telas (início, sala, vitória, tempo esgotado, guia);
+          \item \texttt{script.js}: pistas, validação de respostas e cronômetro;
+          \item \texttt{style.css}: identidade visual;
+          \item Sem frameworks nem backend.
+        \end{itemize}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 10. Referencial (1:00)
+\begin{frame}{Referencial teórico}
+  \begin{columns}[T]
+    \begin{column}{0.32\textwidth}
+      \begin{card}{Gênero e computação}
+        \scriptsize
+        \textbf{Lima (2013):} cultura androcêntrica, efeito tesoura e isolamento; cada pista dialoga com o apagamento histórico de Ada.
+      \end{card}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{card}{Escape rooms educativos}
+        \scriptsize
+        \textbf{Veldkamp et al. (2020):} aprendizagem ativa por enigmas colaborativos sob limite de tempo.
+      \end{card}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \begin{card}{Computação desplugada}
+        \scriptsize
+        \textbf{Alves \& Fonseca (2025):} padrões, abstração e algoritmos sem programar; base das pistas 1 a 5.
+      \end{card}
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{card}{BNCC Computação}
+        \scriptsize
+        \textbf{GEG Brasil (2025):} eixo Cultura Digital; alinhamento curricular ao Ensino Médio.
+      \end{card}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{card}{Materiais educativos}
+        \scriptsize
+        \textbf{Ribeiro \& Queluci (2022); Alves et al. (2019):} etapas de elaboração e roda de conversa pós-jogo.
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 11. Cronograma (1:00)
+\begin{frame}{Cronograma de desenvolvimento}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \arrayrulecolor{Line}
+  \begin{tabularx}{\textwidth}{l X l}
+    \toprule
+    \textcolor{Cyan}{Data} & \textcolor{Cyan}{Etapa} & \textcolor{Cyan}{Status} \\
+    \midrule
+    03/10 & Definição do tema (Gênero), produto (escape room) e público & Concluído \\
+    16/10 & \textbf{Projeto: objetivos, teoria e cronograma} & Entrega hoje \\
+    23/10 & Identidade visual & Próximo marco \\
+    06/11 & Status do projeto e compatibilização do cronograma & Previsto \\
+    27/11 & \textbf{Entrega final do produto} e apresentação (grupo 1) & Marco final \\
+    04/12 & Apresentação do trabalho final (grupo 2) & Fechamento \\
+    \bottomrule
+  \end{tabularx}
+  \vspace{0.3em}
+
+  {\scriptsize\muted{Marcus: coordenação, game design e programação web. Kawan: pesquisa histórica, roteiro, guia do professor e identidade visual.}}
+\end{frame}
+
+% ------------------------------------------------------------------ 12. Identidade visual (0:45)
+\begin{frame}{Identidade visual: minimalismo e elegância}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{card}{Princípios}
+        \begin{itemize}
+          \item Fundo azul-marinho \textcolor{Cyan}{\texttt{\#070B12}} e \textbf{ciano \texttt{\#00A3E0}} como único destaque;
+          \item Títulos serifados (Cormorant Garamond, itálico nos subtítulos);
+          \item Texto em Inter e código em Fira Code;
+          \item Bordas finas, sem neon nem brilho.
+        \end{itemize}
+      \end{card}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{card}{Intenção}
+        A estética de gabinete antigo encontra a interface contemporânea: pouca informação por vez, hierarquia clara e contraste alto para telas de laboratórios escolares.\\[0.5em]
+        \colorbox{Bg}{\color{Cyan}\rule{0pt}{1.2ex}\hspace{1.4em}}\hspace{0.3em}\colorbox{Cyan}{\rule{0pt}{1.2ex}\hspace{1.4em}}
+      \end{card}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ 13. Referências (0:30)
+\begin{frame}{Referências bibliográficas}
+  \scriptsize
+  \begin{itemize}
+    \item \textbf{ALVES, L. S.; FONSECA, M. G.} \textit{Computação Desplugada: Guia prático para professores}. Brasília: IFB / PROFEPT, 2025.
+    \item \textbf{ALVES, R. J. M.; GUTJAHR, A. L. N.; PONTES, A. N.} Processo metodológico de elaboração de uma cartilha educativa socioambiental. \textit{RevBEA}, v. 14, n. 2, p. 69-85, 2019.
+    \item \textbf{GEG BRASIL.} \textit{BNCC Computação na Prática}. Org.: Vivian Guazzelli. São Paulo: Grupo de Educadores Google Brasil, 2025.
+    \item \textbf{LIMA, M. P.} As mulheres na Ciência da Computação. \textit{Revista Estudos Feministas}, Florianópolis, v. 21, n. 3, p. 793-816, 2013.
+    \item \textbf{RAMOS, G. N.} \textit{UnB-CIC: Uma classe em \LaTeX\ para textos do Departamento de Ciência da Computação}. Brasília: UnB, 2014.
+    \item \textbf{RIBEIRO, L. A.; QUELUCI, G. C.} \textit{Passo a passo para elaboração de cartilhas}. Niterói: eduCAPES / UFF, 2022.
+    \item \textbf{VELDKAMP, A. et al.} Escape boxes: Bringing escape room experience into the classroom. \textit{British Journal of Educational Technology}, v. 51, n. 4, p. 1220-1239, 2020.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------ 14. Encerramento (0:30)
+\begin{frame}[plain]
+  \vspace*{4em}
+  \begin{center}
+    {\titlefont\fontsize{34}{36}\selectfont CodeBreak}\\[0.2em]
+    {\titlefont\itshape\fontsize{18}{20}\selectfont\color{Cyan}O Gabinete de Ada Lovelace}\\[0.7em]
+    {\color{Cyan}\rule{3em}{0.6pt}}\\[0.9em]
+    {\small\color{TextMuted}Aberto a perguntas, sugestões e ao parecer de aprovação.}\\[1.2em]
+    {\scriptsize\color{TextMuted}Informática e Sociedade (INFOSOC) · 2026/2\\
+    Departamento de Ciência da Computação (CIC) · Universidade de Brasília (UnB)}
+  \end{center}
+\end{frame}
+
+\end{document}
