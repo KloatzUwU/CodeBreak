@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeBreak · O Gabinete de Ada Lovelace (INFOSOC)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070B12;
+      --panel: #0C121C;
+      --line: #233044;
+      --cyan: #00A3E0;
+      --text: #E6EDF5;
+      --muted: #8A97A8;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'Fira Code', ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh; width: 100vw;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      height: 48px;
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    }
+    header .brand b { color: var(--text); font-weight: 500; }
+
+    .slider-viewport {
+      flex: 1; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.2rem 2rem;
+    }
+    .slide {
+      position: absolute;
+      width: calc(100% - 4rem); max-width: 1200px;
+      height: calc(100% - 2rem); max-height: 680px;
+      padding: 2.4rem 3.2rem;
+      display: flex; flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+      overflow: hidden;
+    }
+    .slide.active { opacity: 1; pointer-events: all; }
+
+    .eyebrow {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--cyan);
+    }
+    .slide-header { margin-bottom: 1.4rem; }
+    .slide-title {
+      font-family: var(--serif); font-weight: 500;
+      font-size: 2.1rem; line-height: 1.15; margin-top: 0.3rem;
+    }
+    .slide-title::after {
+      content: ''; display: block; width: 2.4rem; height: 1px;
+      background: var(--cyan); margin-top: 0.7rem;
+    }
+    .slide-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 1rem; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 3px;
+      padding: 1.1rem 1.3rem;
+    }
+    .card-title {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--cyan);
+      padding-bottom: 0.6rem; margin-bottom: 0.7rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .card-body { font-size: 0.88rem; line-height: 1.6; font-weight: 300; }
+    .card-body strong { font-weight: 600; color: var(--text); }
+    .card-body ul, .card-body ol { padding-left: 1.1rem; }
+    .card-body li { margin-bottom: 0.4rem; }
+    .card-body li::marker { color: var(--cyan); }
+    code, .mono { font-family: var(--mono); font-size: 0.82em; color: var(--cyan); }
+
+    .quote {
+      font-family: var(--serif); font-style: italic; font-size: 1.35rem;
+      color: var(--cyan); text-align: center; margin-top: auto; padding: 0.4rem 1rem;
+    }
+    .note { font-size: 0.78rem; color: var(--muted); margin-top: auto; }
+
+    /* Capa */
+    .cover-slide { justify-content: center; }
+    .cover-title { font-family: var(--serif); font-weight: 500; font-size: 4.6rem; line-height: 1; margin: 0.8rem 0 0.2rem; }
+    .cover-subtitle { font-family: var(--serif); font-style: italic; font-size: 2rem; color: var(--cyan); }
+    .rule { width: 3.2rem; height: 1px; background: var(--cyan); margin: 1.2rem 0; }
+    .cover-lead { max-width: 640px; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 1.6rem; }
+    .cover-meta { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+    .cover-meta b { color: var(--text); font-weight: 500; }
+
+    /* Tabelas */
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th {
+      font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--cyan); text-align: left; font-weight: 400;
+      padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--cyan);
+    }
+    td { padding: 0.65rem 0.8rem; border-bottom: 1px solid var(--line); font-weight: 300; line-height: 1.45; }
+    td strong { font-weight: 600; }
+    td.num { font-family: var(--mono); color: var(--cyan); width: 2rem; }
+    .status { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+    .status.now { color: var(--cyan); }
+
+    .palette { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+    .swatch { width: 44px; height: 24px; border: 1px solid var(--line); }
+    .refs p { margin-bottom: 0.65rem; font-size: 0.82rem; line-height: 1.55; font-weight: 300; }
+    .refs strong { font-weight: 600; }
+
+    /* Rodapé */
+    footer {
+      height: 52px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    }
+    .progress-track { flex: 1; height: 1px; background: var(--line); margin: 0 1.5rem; }
+    .progress-bar { height: 1px; background: var(--cyan); width: 0; transition: width 0.25s ease; }
+    .btn-nav {
+      background: transparent; border: 1px solid var(--line); color: var(--text);
+      font-family: var(--mono); font-size: 0.72rem; padding: 0.4rem 0.9rem;
+      border-radius: 3px; cursor: pointer; transition: border-color 0.2s;
+    }
+    .btn-nav:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); }
+    .btn-nav:disabled { opacity: 0.35; cursor: default; }
+    .nav-controls { display: flex; align-items: center; gap: 0.8rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand"><b>UnB / CIC</b> · Informática e Sociedade (INFOSOC)</div>
+    <div>Marco 16/10 · Projeto do trabalho · Gênero e Computação</div>
+  </header>
+
+  <main class="slider-viewport">
+
+    <!-- 1. CAPA -->
+    <section class="slide active cover-slide">
+      <div class="eyebrow">Escape room educativo · Ensino Médio</div>
+      <h1 class="cover-title">CodeBreak</h1>
+      <p class="cover-subtitle">O Gabinete de Ada Lovelace</p>
+      <div class="rule"></div>
+      <p class="cover-lead">Escape room digital sobre gênero e computação. Londres, 1843: uma única sala, seis pistas, quinze minutos para destrancar a porta.</p>
+      <div class="cover-meta">
+        <b>Marcus Cavalcante · Kawan Borges</b><br>
+        Universidade de Brasília (UnB) · Departamento de Ciência da Computação (CIC)<br>
+        INFOSOC 2026/2 · Profª. Drª. Leticia Lopes Leite
+      </div>
+    </section>
+
+    <!-- 2. ROTEIRO -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Estrutura</div>
+        <h2 class="slide-title">Roteiro da apresentação</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Bloco I · Ideia e problema</div>
+            <div class="card-body"><ol>
+              <li>Contexto e motivação</li>
+              <li>Objeto e público-alvo</li>
+              <li>Justificativa e diferencial</li>
+              <li>Objetivos</li>
+            </ol></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Bloco II · Produto e planejamento</div>
+            <div class="card-body"><ol start="5">
+              <li>A sala: O Gabinete de Ada Lovelace</li>
+              <li>As seis pistas</li>
+              <li>Arquitetura técnica</li>
+              <li>Referencial teórico</li>
+              <li>Cronograma e identidade visual</li>
+            </ol></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CONTEXTO -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">O problema</div>
+        <h2 class="slide-title">Contexto e motivação</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">O cenário</div>
+            <div class="card-body"><ul>
+              <li><strong>Pioneirismo apagado:</strong> Ada Lovelace escreveu o primeiro algoritmo (1843); mulheres programaram o ENIAC;</li>
+              <li><strong>Virada dos anos 80:</strong> microcomputadores vendidos como brinquedo de meninos;</li>
+              <li><strong>Hoje:</strong> menos de 20% das matrículas em computação no Brasil são de mulheres (INEP/SBC).</li>
+            </ul></div>
+          </div>
+          <div class="card">
+            <div class="card-title">O momento crítico</div>
+            <div class="card-body"><ul>
+              <li>No Ensino Médio (14 a 18 anos), muitas alunas se afastam de Exatas;</li>
+              <li>Falta de modelos e síndrome da impostora;</li>
+              <li>Sem diversidade, softwares e IAs reproduzem vieses.</li>
+            </ul></div>
+          </div>
+        </div>
+        <p class="quote">Como transformar dados frios de exclusão em uma experiência que gere empatia?</p>
+      </div>
+    </section>
+
+    <!-- 4. OBJETO -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">A solução</div>
+        <h2 class="slide-title">Objeto do trabalho e público-alvo</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">O produto</div>
+            <div class="card-body">
+              <p><strong>CodeBreak: O Gabinete de Ada Lovelace</strong></p>
+              <ul style="margin-top:0.6rem">
+                <li>Escape room digital com <strong>uma única sala temática</strong>: o gabinete de Ada, em Londres, 1843;</li>
+                <li>Seis pistas independentes, resolvidas em qualquer ordem, em equipe;</li>
+                <li>A porta só abre quando todas as pistas são resolvidas.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Público-alvo · Ensino Médio</div>
+            <div class="card-body"><ul>
+              <li><strong>Faixa etária:</strong> 14 a 18 anos;</li>
+              <li><strong>Sem código prévio:</strong> enigmas desenvolvem pensamento computacional;</li>
+              <li><strong>Versátil:</strong> laboratório, celular ou versão desplugada (papel e caneta);</li>
+              <li><strong>Mediação:</strong> guia do professor com gabarito.</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. JUSTIFICATIVA -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Por que um escape room?</div>
+        <h2 class="slide-title">Justificativa e diferencial</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Justificativa</div>
+            <div class="card-body"><ul>
+              <li><strong>Efeito tesoura</strong> (<em>leaky pipeline</em>): maior evasão feminina e poucas mulheres na liderança;</li>
+              <li>O jogo gera <strong>vivência empática</strong>: o aluno é protagonista, não plateia;</li>
+              <li>Alinhado à BNCC Computação (Cultura Digital, ética e cooperação).</li>
+            </ul></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Além da visão binária</div>
+            <div class="card-body"><ul>
+              <li>A maioria dos projetos trata gênero de modo binário (homem × mulher cis);</li>
+              <li>O guia de debate amplia a conversa para identidades não binárias, pessoas trans e interseccionalidades;</li>
+              <li>Tecnologia plural, para toda a sociedade.</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. OBJETIVOS -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Metas</div>
+        <h2 class="slide-title">Objetivos do trabalho final</h2>
+      </div>
+      <div class="slide-content">
+        <div class="card">
+          <div class="card-title">Objetivo geral</div>
+          <div class="card-body">Desenvolver, documentar e validar o jogo educativo digital <strong>CodeBreak</strong>, fomentando a reflexão sobre equidade de gênero e o pensamento computacional entre estudantes do Ensino Médio.</div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Pedagógicos</div>
+            <div class="card-body"><ul>
+              <li>Desmistificar a computação como habilidade masculina;</li>
+              <li>Apresentar Ada Lovelace como referência histórica;</li>
+              <li>Discutir por que contribuições femininas foram apagadas e o impacto da representatividade.</li>
+            </ul></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Técnicos e metodológicos</div>
+            <div class="card-body"><ul>
+              <li>Aplicação web responsiva (HTML5, CSS3, JavaScript puro);</li>
+              <li>Guia do professor com gabarito e roda de conversa;</li>
+              <li>Validar com testes de usabilidade e tempo de fuga.</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. A SALA -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">O jogo</div>
+        <h2 class="slide-title">A sala: O Gabinete de Ada Lovelace</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Narrativa</div>
+            <div class="card-body">
+              <p>Londres, 1843. Os jogadores estão trancados no gabinete de Ada Lovelace, filha de Lord Byron, que ao traduzir um artigo sobre a Máquina Analítica de Babbage acrescentou notas com o <strong>primeiro algoritmo da história</strong>.</p>
+              <p style="margin-top:0.7rem">Para abrir a porta, é preciso encontrar as pistas que ela deixou.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Regras</div>
+            <div class="card-body"><ul>
+              <li><strong>Tempo total:</strong> <code>15:00</code>;</li>
+              <li><strong>Penalidade:</strong> <code>-30s</code> por resposta errada;</li>
+              <li><strong>Vitória:</strong> acertar todas as 6 pistas;</li>
+              <li><strong>Dicas:</strong> uma por pista;</li>
+              <li><strong>Fecho:</strong> tela de vitória com fatos históricos e debate guiado.</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. AS SEIS PISTAS -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Enigmas</div>
+        <h2 class="slide-title">As seis pistas</h2>
+      </div>
+      <div class="slide-content">
+        <table>
+          <thead><tr><th>#</th><th>Pista</th><th>Enigma</th><th>Conceito</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td><strong>Os cartões do tear</strong></td><td>Cartões perfurados binários (1 = furo): completar a 4ª linha</td><td>Representação binária</td></tr>
+            <tr><td class="num">2</td><td><strong>O nome da máquina</strong></td><td>Cifra de César (deslocamento −1) revela <code>BABBAGE</code></td><td>Criptografia, padrões</td></tr>
+            <tr><td class="num">3</td><td><strong>A sequência de Ada</strong></td><td><code>1, 1, 2, 3, 5, 8, ?</code> (Fibonacci)</td><td>Padrões e recorrência</td></tr>
+            <tr><td class="num">4</td><td><strong>Linha do tempo</strong></td><td>Anos entre 1815 (nascimento) e 1843 (Notas)</td><td>Cálculo, contexto histórico</td></tr>
+            <tr><td class="num">5</td><td><strong>Execute o algoritmo</strong></td><td>Seguir passos na ordem a partir de um valor inicial</td><td>Algoritmo</td></tr>
+            <tr><td class="num">6</td><td><strong>Charada final</strong></td><td>Objeto de furos que dá ordens às máquinas: <code>CARTÃO</code></td><td>Síntese e dedução</td></tr>
+          </tbody>
+        </table>
+        <p class="note">As respostas completas ficam no guia do professor, dentro do jogo.</p>
+      </div>
+    </section>
+
+    <!-- 9. ARQUITETURA -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Decisão de engenharia</div>
+        <h2 class="slide-title">Arquitetura do produto</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Por que software web</div>
+            <div class="card-body"><ul>
+              <li><strong>Acesso universal:</strong> roda em navegador, no PC da escola ou no celular, sem instalação;</li>
+              <li><strong>Custo zero de distribuição:</strong> sem maquete física;</li>
+              <li><strong>Gamificação:</strong> cronômetro regressivo, penalidade, dicas e sons opcionais;</li>
+              <li><strong>Escalável:</strong> qualquer escola pública pode adotar.</li>
+            </ul></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Estrutura do código</div>
+            <div class="card-body"><ul>
+              <li><code>index.html</code>: telas (início, sala, vitória, tempo esgotado, guia);</li>
+              <li><code>script.js</code>: pistas, validação de respostas e cronômetro;</li>
+              <li><code>style.css</code>: identidade visual;</li>
+              <li>Sem frameworks nem backend.</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. REFERENCIAL -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Fundamentação</div>
+        <h2 class="slide-title">Referencial teórico</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">Gênero e computação</div>
+            <div class="card-body"><strong>Lima (2013):</strong> cultura androcêntrica, efeito tesoura e isolamento; o jogo dialoga com o apagamento histórico de Ada.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Escape rooms educativos</div>
+            <div class="card-body"><strong>Veldkamp et al. (2020):</strong> aprendizagem ativa por enigmas colaborativos sob limite de tempo.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Computação desplugada</div>
+            <div class="card-body"><strong>Alves &amp; Fonseca (2025):</strong> padrões, abstração e algoritmos sem programar; base das pistas 1 a 5.</div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">BNCC Computação</div>
+            <div class="card-body"><strong>GEG Brasil (2025):</strong> eixo Cultura Digital; alinhamento curricular ao Ensino Médio.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Materiais educativos</div>
+            <div class="card-body"><strong>Ribeiro &amp; Queluci (2022); Alves et al. (2019):</strong> etapas de elaboração e roda de conversa pós-jogo.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. CRONOGRAMA -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Planejamento</div>
+        <h2 class="slide-title">Cronograma de desenvolvimento</h2>
+      </div>
+      <div class="slide-content">
+        <table>
+          <thead><tr><th>Data</th><th>Etapa</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">03/10</td><td>Definição do tema (Gênero), produto (escape room) e público</td><td class="status">Concluído</td></tr>
+            <tr><td class="mono">16/10</td><td><strong>Projeto: objetivos, teoria e cronograma</strong></td><td class="status now">Entrega hoje</td></tr>
+            <tr><td class="mono">23/10</td><td>Identidade visual</td><td class="status">Próximo marco</td></tr>
+            <tr><td class="mono">06/11</td><td>Status do projeto e compatibilização do cronograma</td><td class="status">Previsto</td></tr>
+            <tr><td class="mono">27/11</td><td><strong>Entrega final do produto</strong> e apresentação (grupo 1)</td><td class="status">Marco final</td></tr>
+            <tr><td class="mono">04/12</td><td>Apresentação do trabalho final (grupo 2)</td><td class="status">Fechamento</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Marcus: coordenação, game design e programação web. Kawan: pesquisa histórica, roteiro, guia do professor e identidade visual.</p>
+      </div>
+    </section>
+
+    <!-- 12. IDENTIDADE VISUAL -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Design</div>
+        <h2 class="slide-title">Identidade visual: minimalismo e elegância</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Princípios</div>
+            <div class="card-body"><ul>
+              <li>Fundo azul-marinho <code>#070B12</code> e <strong>ciano</strong> <code>#00A3E0</code> como único destaque;</li>
+              <li>Títulos serifados (Cormorant Garamond, itálico nos subtítulos);</li>
+              <li>Texto em Inter e código em Fira Code;</li>
+              <li>Bordas finas, sem neon nem brilho.</li>
+            </ul></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Intenção</div>
+            <div class="card-body">
+              A estética de gabinete antigo encontra a interface contemporânea: pouca informação por vez, hierarquia clara e contraste alto para telas de laboratórios escolares.
+              <div class="palette">
+                <span class="swatch" style="background:#070B12"></span>
+                <span class="swatch" style="background:#00A3E0"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. REFERÊNCIAS -->
+    <section class="slide">
+      <div class="slide-header">
+        <div class="eyebrow">Rigor acadêmico (ABNT)</div>
+        <h2 class="slide-title">Referências bibliográficas</h2>
+      </div>
+      <div class="slide-content">
+        <div class="card"><div class="card-body refs">
+          <p><strong>ALVES, L. S.; FONSECA, M. G.</strong> <em>Computação Desplugada: Guia prático para professores</em>. Brasília: IFB / PROFEPT, 2025.</p>
+          <p><strong>ALVES, R. J. M.; GUTJAHR, A. L. N.; PONTES, A. N.</strong> Processo metodológico de elaboração de uma cartilha educativa socioambiental. <em>RevBEA</em>, v. 14, n. 2, p. 69-85, 2019.</p>
+          <p><strong>GEG BRASIL.</strong> <em>BNCC Computação na Prática</em>. Org.: Vivian Guazzelli. São Paulo: Grupo de Educadores Google Brasil, 2025.</p>
+          <p><strong>LIMA, M. P.</strong> As mulheres na Ciência da Computação. <em>Revista Estudos Feministas</em>, Florianópolis, v. 21, n. 3, p. 793-816, 2013.</p>
+          <p><strong>RAMOS, G. N.</strong> <em>UnB-CIC: Uma classe em LaTeX para textos do Departamento de Ciência da Computação</em>. Brasília: UnB, 2014.</p>
+          <p><strong>RIBEIRO, L. A.; QUELUCI, G. C.</strong> <em>Passo a passo para elaboração de cartilhas</em>. Niterói: eduCAPES / UFF, 2022.</p>
+          <p><strong>VELDKAMP, A. et al.</strong> Escape boxes: Bringing escape room experience into the classroom. <em>British Journal of Educational Technology</em>, v. 51, n. 4, p. 1220-1239, 2020.</p>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- 14. ENCERRAMENTO -->
+    <section class="slide cover-slide">
+      <div class="eyebrow">Etapa sujeita à aprovação da professora</div>
+      <h1 class="cover-title" style="font-size:3.4rem">CodeBreak</h1>
+      <p class="cover-subtitle" style="font-size:1.6rem">O Gabinete de Ada Lovelace</p>
+      <div class="rule"></div>
+      <p class="cover-lead">Aberto a perguntas, sugestões e ao parecer de aprovação da proposta.</p>
+      <div class="cover-meta">Universidade de Brasília · Informática e Sociedade (INFOSOC) 2026/2</div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>◀ ▶ ou Espaço · F: tela cheia</div>
+    <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="nav-controls">
+      <button class="btn-nav" id="prevBtn" onclick="prevSlide()">anterior</button>
+      <span id="slideCounter">1 / 14</span>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">próximo</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progressBar');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentSlide = 0;
+
+    function updateSlides() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+      progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+      slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+    function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateSlides(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlides(); } }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); nextSlide(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prevSlide(); }
+      else if (e.key === 'Home') { currentSlide = 0; updateSlides(); }
+      else if (e.key === 'End') { currentSlide = slides.length - 1; updateSlides(); }
+      else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+        else document.exitFullscreen();
+      }
+    });
+    updateSlides();
+  </script>
+</body>
+</html>
